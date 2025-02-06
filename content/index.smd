@@ -2,7 +2,7 @@
 .title = "Home",
 .date = @date("2025-01-05T00:00:00"),
 .author = "Alec Lowry",
-.layout = "hme.shtml",
+.layout = "home.shtml",
 .draft = false,
 --- 
 Hello World!
