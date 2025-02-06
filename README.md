@@ -1,2 +1,2 @@
-# zine-ssg.io
-The official website for https://github.com/kristoff-it/zine
+# aleclowry.com
+Personal Site for me
