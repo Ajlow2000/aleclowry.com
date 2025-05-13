@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+  <head id="head">
+    <meta charset="UTF-8">
+    <meta name="description" content="Alec Lowry">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="$page.title.suffix(' | Alec Lowry')">
+    <!-- <meta property="og:image" content="$site.host_url.addPath($site.asset('preview.png').link())"> -->
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title id="title">
+      <super>
+      - Alec Lowry
+    </title>
+    <!-- <link rel="stylesheet" type="text/css" href="$site.asset('style.css').link()"> -->
+    <!-- <link rel="stylesheet" type="text/css" href="$site.asset('highlight.css').link()"> -->
+    <super>
+  </head>
+  <body>
+    <nav id="menu" class="centered">
+      <a href="$site.page('about').link()">About</a>
+      <a href="$site.page('writing').link()">Writing</a>
+      <a href="$site.page('thingsILike').link()">Things I Like</a>
+    </nav>
+    <div id="content">
+      <super>
+    </div>
+  </body>
+</html>

@@ -1,9 +1,9 @@
 ---
-.title = "Home",
+.title = "Things I Like",
 .date = @date("2025-01-05T00:00:00"),
 .author = "Alec Lowry",
 .layout = "home.shtml",
 .draft = false,
 --- 
 # Alec Lowry
-Here we are
+Here we are in things I like

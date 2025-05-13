@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="UTF-8">
-    <title :text="$site.title"></title>
-  </head>
-  <body>
-    <h1 :text="$page.title"></h1>
-    <div :html="$page.content()"></div>
-  </body>
-</html>
-
+<extend template="base.shtml">
+<head id="head"> </head>
+<title id="title" :text="$page.title"></title>
+<div id="content">
+  <div id="page" :html="$page.content()"></div>
+</div>
