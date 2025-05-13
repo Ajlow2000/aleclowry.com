@@ -1,31 +1,32 @@
+name: cloudflare pages
+
 on:
   push:
     branches:
-      - main
-
+      - main  # Set a branch to deploy
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    name: Deploy
-    permissions:
-      contents: read
-      deployments: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Zig
-        uses: mlugg/setup-zig@v1
         with:
-          version: 0.13.0
+          fetch-depth: 0  # Change if you need git info
+
+      - name: Setup Zine
+        uses: kristoff-it/setup-zine@v1
+        with:
+          version: v0.10.2
           
       - name: Build
-        run: zig build --summary new
-
+        run: zine release
+          
       - name: Deploy
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy ./zig-out --project-name=aleclowry-com
-          # Optional: Enable this if you want to have GitHub Deployments triggered
-          gitHubToken: ${{ secrets.GITHUB_TOKEN }}
+          command: pages deploy public/ --project-name aleclowry-com
+          # Optional: Adds GitHub deployments support
+          githubToken: ${{ secrets.GITHUB_TOKEN }}
+          
+
