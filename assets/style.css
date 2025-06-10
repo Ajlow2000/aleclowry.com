@@ -16,7 +16,8 @@ body {
   background-color: #fdfdfd;
   max-width: 800px;
   margin: 0 auto;
-  padding: 2rem 1rem;
+  padding: 2rem 1.5rem;
+  min-width: 0;
 }
 
 /* Typography */
@@ -159,7 +160,7 @@ blockquote {
 /* Responsive design */
 @media (max-width: 768px) {
   body {
-    padding: 1rem 0.75rem;
+    padding: 1rem 1rem;
   }
   
   h1 {
@@ -177,6 +178,10 @@ blockquote {
 }
 
 @media (max-width: 480px) {
+  body {
+    padding: 1rem 0.75rem;
+  }
+  
   nav#menu a {
     display: block;
     margin: 0.5rem 0;
