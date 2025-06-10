@@ -1,0 +1,25 @@
+<extend template="base.shtml">
+<head id="head"> </head>
+<title id="title" :text="$page.title"></title>
+<div id="content">
+  <div id="page" :html="$page.content()"></div>
+  
+  <div class="blog-post-list">
+    <div :loop="$page.subpages()">
+      <article class="blog-post-preview">
+        <header>
+          <h3>
+            <a href="$loop.it.link()" :text="$loop.it.title"></a>
+          </h3>
+          <time>December 15, 2024</time>
+          <span class="author">by <span :text="$loop.it.author"></span></span>
+        </header>
+        <p :text="$loop.it.description"></p>
+        <div class="tags">
+          <span :loop="$loop.it.tags" class="tag" :text="$loop.it"></span>
+        </div>
+      </article>
+      <hr>
+    </div>
+  </div>
+</div>

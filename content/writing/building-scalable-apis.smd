@@ -1,0 +1,99 @@
+---
+.title = "Building Scalable APIs with Rate Limiting",
+.description = "Explore techniques for building APIs that can handle high traffic loads with effective rate limiting strategies and caching mechanisms.",
+.date = @date("2024-12-10T00:00:00"),
+.author = "Alec Lowry",
+.layout = "home.shtml",
+.draft = false,
+.tags = ["api", "scalability", "rate-limiting", "performance"],
+---
+
+# Building Scalable APIs with Rate Limiting
+
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+## Understanding Rate Limiting
+
+Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+
+### Types of Rate Limiting
+
+- **Fixed Window**: Sed ut perspiciatis unde omnis iste natus error
+- **Sliding Window**: At vero eos et accusamus et iusto odio dignissimos  
+- **Token Bucket**: Ducimus qui blanditiis praesentium voluptatum
+
+## Implementation Strategies
+
+Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
+
+### Simple Rate Limiter
+
+```
+class RateLimiter:
+    def __init__(self, max_requests, window_size):
+        self.max_requests = max_requests
+        self.window_size = window_size
+        self.requests = {}
+    
+    def is_allowed(self, user_id):
+        now = time.time()
+        window_start = now - self.window_size
+        
+        # Clean old requests
+        if user_id in self.requests:
+            self.requests[user_id] = [
+                req_time for req_time in self.requests[user_id]
+                if req_time > window_start
+            ]
+        else:
+            self.requests[user_id] = []
+        
+        # Check if under limit
+        if len(self.requests[user_id]) < self.max_requests:
+            self.requests[user_id].append(now)
+            return True
+        
+        return False
+```
+
+### Using Redis for Distributed Rate Limiting
+
+```
+-- Redis Lua script for atomic rate limiting
+local key = KEYS[1]
+local window = tonumber(ARGV[1])
+local limit = tonumber(ARGV[2])
+local current_time = tonumber(ARGV[3])
+
+-- Remove expired entries
+redis.call('ZREMRANGEBYSCORE', key, '-inf', current_time - window)
+
+-- Count current requests
+local current_requests = redis.call('ZCARD', key)
+
+if current_requests < limit then
+    -- Add current request
+    redis.call('ZADD', key, current_time, current_time)
+    redis.call('EXPIRE', key, window)
+    return {1, limit - current_requests - 1}
+else
+    return {0, 0}
+end
+```
+
+## Best Practices
+
+Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
+
+### Key Considerations
+
+- **Graceful Degradation**: Handle rate limit exceeded scenarios properly
+- **User Communication**: Provide clear error messages and retry information
+- **Monitoring**: Track rate limiting metrics and adjust thresholds
+- **Exemptions**: Consider allowlists for critical operations
+
+## Conclusion
+
+At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident.
+
+Rate limiting is essential for building resilient APIs that can handle real-world traffic patterns.

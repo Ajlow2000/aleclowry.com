@@ -5,5 +5,31 @@
 .layout = "home.shtml",
 .draft = false,
 --- 
-# Alec Lowry
-Here we are in About
+# About Me
+
+Hi, I'm Alec Lowry, a software engineer passionate about creating reliable, scalable systems that solve real problems.
+
+## What I Do
+
+I specialize in full-stack development with a focus on:
+
+- **Backend Systems**: Designing and implementing distributed architectures, APIs, and microservices
+- **Cloud Infrastructure**: Working with AWS, containerization, and deployment pipelines
+- **Performance Engineering**: Optimizing applications for speed, scalability, and resource efficiency
+- **Developer Experience**: Building tools and processes that make development teams more productive
+
+## My Approach
+
+I believe in writing clean, maintainable code that stands the test of time. I'm always learning new technologies and methodologies, but I value choosing the right tool for the job over chasing the latest trends.
+
+## Beyond Code
+
+When I'm not programming, I enjoy exploring new places, reading about technology and business, and experimenting with side projects that combine my interests in software and creativity.
+
+## Get in Touch
+
+Feel free to reach out if you'd like to discuss technology, collaborate on projects, or just chat about software engineering.
+
+- Email: [your-email@example.com](mailto:your-email@example.com)
+- GitHub: [github.com/yourusername](https://github.com/yourusername)
+- LinkedIn: [linkedin.com/in/yourprofile](https://linkedin.com/in/yourprofile)
