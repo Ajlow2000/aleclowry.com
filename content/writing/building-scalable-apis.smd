@@ -3,12 +3,10 @@
 .description = "Explore techniques for building APIs that can handle high traffic loads with effective rate limiting strategies and caching mechanisms.",
 .date = @date("2024-12-10T00:00:00"),
 .author = "Alec Lowry",
-.layout = "home.shtml",
+.layout = "writing-entry.shtml",
 .draft = false,
 .tags = ["api", "scalability", "rate-limiting", "performance"],
 ---
-
-# Building Scalable APIs with Rate Limiting
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
 

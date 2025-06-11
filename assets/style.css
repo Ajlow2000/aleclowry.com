@@ -33,6 +33,12 @@ h1 {
   margin-bottom: 1.5rem;
 }
 
+/* Make h1 in page content smaller than page title */
+#page h1 {
+  font-size: 1.9rem;
+  margin-top: 2rem;
+}
+
 h2 {
   font-size: 1.75rem;
   border-bottom: 2px solid #e9ecef;

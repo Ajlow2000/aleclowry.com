@@ -1,14 +1,15 @@
 ---
 .title = "Optimizing Database Queries for Better Performance",
 .description = "Learn practical techniques for improving database performance, from proper indexing strategies to advanced caching patterns. Includes code examples in SQL and Python.",
-.date = @date("2024-12-15T00:00:00"),
+.date = @date("2025-10-10T00:00:00"),
 .author = "Alec Lowry",
-.layout = "home.shtml",
+.layout = "writing-entry.shtml",
 .draft = false,
-.tags = ["database", "performance", "sql", "optimization"],
+.tags = ["database", "performance", "sql", "optimization", "software",
+"technical", "foo", "bar", "baz", "mantissa", "pivot", "djikstra"],
 ---
 
-# Optimizing Database Queries for Better Performance
+# The title in the markdown file
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
 
