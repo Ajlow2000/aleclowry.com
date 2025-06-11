@@ -11,8 +11,7 @@
           <h3>
             <a href="$loop.it.link()" :text="$loop.it.title"></a>
           </h3>
-          <time :text="$loop.it.date.format('January 01, 2006')"></time>
-          <span class="author">by <span :text="$loop.it.author"></span></span>
+          <time :text="$loop.it.date.format('January 01, 2006')"></time> <span class="author">by <span :text="$loop.it.author"></span></span>
         </header>
         <p :text="$loop.it.description"></p>
         <div class="tags">
