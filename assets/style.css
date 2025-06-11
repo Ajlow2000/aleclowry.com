@@ -124,29 +124,33 @@ li {
   color: #4a5568;
 }
 
-/* Code */
+/* Lackluster Code styling */
 code {
-  background-color: #f8f9fa;
+  background-color: #2a2a2a;
   padding: 0.2rem 0.4rem;
-  border-radius: 3px;
-  font-family: 'Monaco', 'Consolas', 'Courier New', monospace;
+  border-radius: 4px;
+  font-family: 'Fira Code', 'JetBrains Mono', 'Monaco', 'Consolas', 'Courier New', monospace;
   font-size: 0.9rem;
-  color: #e74c3c;
+  color: #708090;
+  border: 1px solid #444444;
 }
 
 pre {
-  background-color: #f8f9fa;
+  background-color: #2a2a2a;
   padding: 1rem;
-  border-radius: 5px;
+  border-radius: 8px;
   overflow-x: auto;
   margin: 1rem 0;
-  border-left: 4px solid #3498db;
+  border-left: 4px solid #708090;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  position: relative;
 }
 
 pre code {
   background: none;
   padding: 0;
-  color: #2c3e50;
+  color: #deeeed;
+  border: none;
 }
 
 /* Blockquotes */
@@ -363,18 +367,20 @@ blockquote {
     color: #0984e3;
   }
   
+  /* Code blocks use Lackluster theme in dark mode */
   code {
-    background-color: #2d3748;
-    color: #fd79a8;
+    background-color: #2a2a2a;
+    color: #708090;
+    border-color: #444444;
   }
   
   pre {
-    background-color: #2d3748;
-    border-left-color: #74b9ff;
+    background-color: #2a2a2a;
+    border-left-color: #708090;
   }
   
   pre code {
-    color: #e1e1e1;
+    color: #deeeed;
   }
   
   blockquote {

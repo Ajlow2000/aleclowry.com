@@ -32,25 +32,35 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 
 Here's an example of creating an optimal index:
 
-```
--- Create a composite index for efficient lookups
-CREATE INDEX idx_user_posts_status_date 
-ON posts (user_id, status, created_at DESC);
+```rust
+// Create a connection pool for better performance
+use sqlx::{PgPool, Row};
 
--- This query will now use the index efficiently
-SELECT title, content, created_at 
-FROM posts 
-WHERE user_id = 123 
-  AND status = 'published' 
-ORDER BY created_at DESC 
-LIMIT 10;
+async fn get_user_posts(pool: &PgPool, user_id: i32) -> Result<Vec<Post>, sqlx::Error> {
+    let posts = sqlx::query_as!(
+        Post,
+        r#"
+        SELECT title, content, created_at 
+        FROM posts 
+        WHERE user_id = $1 
+          AND status = 'published' 
+        ORDER BY created_at DESC 
+        LIMIT 10
+        "#,
+        user_id
+    )
+    .fetch_all(pool)
+    .await?;
+    
+    Ok(posts)
+}
 ```
 
 ### 2. Query Optimization Techniques
 
 Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
 
-```
+```python
 # Example of avoiding N+1 queries
 def get_user_posts(user_ids):
     users = User.objects.filter(id__in=user_ids).prefetch_related('posts')

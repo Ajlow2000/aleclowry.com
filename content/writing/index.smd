@@ -1,12 +1,12 @@
 ---
-.title = "Blog",
+.title = "Writing",
 .date = @date("2025-01-05T00:00:00"),
 .author = "Alec Lowry",
 .layout = "blog-index.shtml",
 .draft = false,
 --- 
-# Blog
+# Writing
 
-Welcome to my blog! Here you'll find my thoughts on software engineering, technology trends, and lessons learned from building systems at scale.
+Welcome to my writing! Here you'll find my thoughts on software engineering, technology trends, and lessons learned from building systems at scale.
 
 ## Recent Posts

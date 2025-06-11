@@ -20,12 +20,91 @@
   <body>
     <nav id="menu" class="centered">
       <a href="$site.page('index').link()">Home</a>
-      <a href="$site.page('writing').link()">Blog</a>
-      <a href="$site.page('thingsILike').link()">Things I Like</a>
       <a href="$site.page('about').link()">About</a>
+      <a href="$site.page('writing').link()">Writing</a>
+      <a href="$site.page('thingsILike').link()">Things I Like</a>
     </nav>
     <div id="content">
       <super>
     </div>
+    
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        // Add copy buttons to all code blocks
+        const codeBlocks = document.querySelectorAll('pre');
+        
+        codeBlocks.forEach(function(codeBlock) {
+          // Create copy button
+          const copyButton = document.createElement('button');
+          copyButton.className = 'code-copy-button';
+          copyButton.setAttribute('aria-label', 'Copy code to clipboard');
+          copyButton.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+          `;
+          
+          // Add click handler
+          copyButton.addEventListener('click', function() {
+            const code = codeBlock.querySelector('code');
+            const text = code ? code.textContent : codeBlock.textContent;
+            
+            // Use modern clipboard API if available
+            if (navigator.clipboard && window.isSecureContext) {
+              navigator.clipboard.writeText(text).then(function() {
+                showCopyFeedback(copyButton);
+              }).catch(function(err) {
+                console.error('Failed to copy: ', err);
+                fallbackCopyText(text);
+                showCopyFeedback(copyButton);
+              });
+            } else {
+              // Fallback for older browsers
+              fallbackCopyText(text);
+              showCopyFeedback(copyButton);
+            }
+          });
+          
+          // Add button to code block
+          codeBlock.style.position = 'relative';
+          codeBlock.appendChild(copyButton);
+        });
+        
+        function fallbackCopyText(text) {
+          const textArea = document.createElement('textarea');
+          textArea.value = text;
+          textArea.style.position = 'fixed';
+          textArea.style.left = '-999999px';
+          textArea.style.top = '-999999px';
+          document.body.appendChild(textArea);
+          textArea.focus();
+          textArea.select();
+          
+          try {
+            document.execCommand('copy');
+          } catch (err) {
+            console.error('Fallback copy failed: ', err);
+          }
+          
+          document.body.removeChild(textArea);
+        }
+        
+        function showCopyFeedback(button) {
+          const originalContent = button.innerHTML;
+          button.classList.add('copied');
+          button.innerHTML = `
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="m6 12 4 4 8-8"></path>
+            </svg>
+          `;
+          
+          setTimeout(function() {
+            button.classList.remove('copied');
+            button.innerHTML = originalContent;
+          }, 2000);
+        }
+      });
+    </script>
   </body>
 </html>

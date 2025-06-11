@@ -28,7 +28,7 @@ Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium dolor
 
 ### Simple Rate Limiter
 
-```
+```python
 class RateLimiter:
     def __init__(self, max_requests, window_size):
         self.max_requests = max_requests
@@ -58,7 +58,7 @@ class RateLimiter:
 
 ### Using Redis for Distributed Rate Limiting
 
-```
+```lua
 -- Redis Lua script for atomic rate limiting
 local key = KEYS[1]
 local window = tonumber(ARGV[1])
