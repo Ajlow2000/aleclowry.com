@@ -124,32 +124,31 @@ li {
   color: #4a5568;
 }
 
-/* Lackluster Code styling */
+/* Basic code styling */
 code {
-  background-color: #2a2a2a;
+  background-color: #f8f9fa;
   padding: 0.2rem 0.4rem;
   border-radius: 4px;
   font-family: 'Fira Code', 'JetBrains Mono', 'Monaco', 'Consolas', 'Courier New', monospace;
   font-size: 0.9rem;
-  color: #708090;
-  border: 1px solid #444444;
+  color: inherit;
+  border: 1px solid #e9ecef;
 }
 
 pre {
-  background-color: #2a2a2a;
+  background-color: #f8f9fa;
   padding: 1rem;
   border-radius: 8px;
   overflow-x: auto;
   margin: 1rem 0;
-  border-left: 4px solid #708090;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  border: 1px solid #e9ecef;
   position: relative;
 }
 
 pre code {
   background: none;
   padding: 0;
-  color: #deeeed;
+  color: inherit;
   border: none;
 }
 
@@ -177,75 +176,8 @@ blockquote {
     font-size: 1.5rem;
   }
   
-  /* Sticky navigation */
-  nav#menu {
-    position: sticky;
-    top: 0;
-    margin-bottom: 2rem;
-    padding: 0.75rem 1rem;
-    z-index: 100;
-    background-color: rgba(253, 253, 253, 0.95);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    overflow: hidden;
-    border-bottom: 1px solid #e9ecef;
-  }
-  
-  nav#menu.centered {
-    text-align: left;
-  }
-  
-  nav#menu a {
-    margin: 0 0.25rem;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.85rem;
-    border-radius: 4px;
-    transition: background-color 0.2s ease, color 0.2s ease;
-    white-space: nowrap;
-    flex-shrink: 0;
-  }
-  
-  nav#menu a:hover {
-    background-color: #f8f9fa;
-    color: #3498db;
-  }
-  
-  nav#menu a::after {
-    display: none;
-  }
-  
   #content {
     margin: 1rem 0;
-  }
-}
-
-/* Very narrow screens - show only Home link */
-@media (max-width: 400px) {
-  nav#menu a:not([href*="index"]) {
-    display: none;
-  }
-  
-  nav#menu {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 480px) {
-  body {
-    padding: 1rem 0.75rem;
-  }
-  
-  nav#menu a {
-    display: block;
-    margin: 0.5rem 0;
-  }
-  
-  nav#menu.centered {
-    text-align: left;
   }
 }
 
@@ -367,20 +299,20 @@ blockquote {
     color: #0984e3;
   }
   
-  /* Code blocks use Lackluster theme in dark mode */
+  /* Code blocks in dark mode */
   code {
-    background-color: #2a2a2a;
-    color: #708090;
-    border-color: #444444;
+    background-color: #2d3748;
+    color: inherit;
+    border-color: #404040;
   }
   
   pre {
-    background-color: #2a2a2a;
-    border-left-color: #708090;
+    background-color: #2d3748;
+    border-color: #404040;
   }
   
   pre code {
-    color: #deeeed;
+    color: inherit;
   }
   
   blockquote {
@@ -415,21 +347,4 @@ blockquote {
     border-top-color: #404040;
   }
   
-  /* Mobile navigation dark mode */
-  @media (max-width: 768px) {
-    nav#menu {
-      background-color: rgba(26, 26, 26, 0.95);
-      box-shadow: 0 2px 4px rgba(255, 255, 255, 0.1);
-      border-bottom-color: #404040;
-    }
-    
-    nav#menu a {
-      color: #f8f9fa;
-    }
-    
-    nav#menu a:hover {
-      background-color: #2d3748;
-      color: #74b9ff;
-    }
-  }
 }
