@@ -15,8 +15,7 @@
         pkgs.mkShell {
           buildInputs = with pkgs;[
             nixpkgs-fmt
-            zig
-            zls
+            zola
           ];
         };
     };

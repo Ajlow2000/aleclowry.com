@@ -1,0 +1,22 @@
+title = "Alec Lowry"
+description = "Personal website"
+base_url = "https://aleclowry.com"
+
+default_language = "en"
+
+compile_sass = true
+build_search_index = false
+minify_html = false
+generate_feeds = true
+feed_filenames = ["atom.xml"]
+
+taxonomies = [
+    {name = "tags", feed = true},
+]
+
+[markdown]
+highlight_code = true
+highlight_theme = "base16-ocean-dark"
+
+[extra]
+author = "Alec Lowry"
