@@ -42,28 +42,3 @@ Developed custom web applications for clients across various industries. Gained 
 - Collaborated directly with clients to gather requirements and provide technical guidance
 
 **Technologies:** JavaScript, Python, Django, React, PostgreSQL, MySQL
-
----
-
-# Education
-
-## Bachelor of Science in Computer Science
-**University of Technology** • 2014 - 2018
-
-Relevant coursework: Data Structures, Algorithms, Operating Systems, Databases, Computer Networks, Software Engineering
-
----
-
-# Skills
-
-**Languages:** Rust, TypeScript/JavaScript, Python, Go, SQL
-
-**Frontend:** React, Next.js, HTML/CSS, Tailwind
-
-**Backend:** Node.js, Django, Express, gRPC, REST APIs
-
-**Databases:** PostgreSQL, Redis, MongoDB
-
-**DevOps:** Docker, Kubernetes, AWS, CI/CD, Terraform
-
-**Tools:** Git, Linux, VS Code, Neovim
