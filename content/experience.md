@@ -10,10 +10,11 @@ Directly supported the adoption of this library in applications used for manufac
 Coordinated with our firmware engineers in Germany to provide holistic solutions to problems and standardize developer tooling company wide.
 
 **Key achievements:**
-- Implemented firmware update retry logic to improve DFU resiliency via "parameter back off" (reduced PRN, reduced data chunk sizes, etc)
-- Built out a remotely accessible hardware-in-the-loop laboratory + a software stack for running arbitrary software against physical hardware (AXS devices)
-- Built a framework for exposing complex Bluetooth scenarios as reproducible, easy to run commands in our internal cli application
-- Integrated our cli's "scenario" tests with our remote hardware-in-the-loop lab for a reliable integration test suite that is part of our CI flow
+<!-- - Implemented firmware update retry logic to improve DFU resiliency via "parameter back off" (reduced PRN, reduced data chunk sizes, etc) -->
+- Support development of Tauri desktop applications by building out cross-platform Bluetooth Low Energy connection logic
+- Responsive to the rapid upstream hardware iteration of future products
+- Support comprehensive hardware-in-the-loop test coverage of our BLE logic primarily targeting nrf52 peripherals
+- Maintain Rust <> C/CPP interop via [bindgen](https://github.com/rust-lang/rust-bindgen)
 - Benchmarked and limit tested concurrent DFU with standardized desktop BLE hardware
 
 **Technologies:** Rust, C++, Tauri, Nrf52, TypeScript, Bluez, Corebluetooth, WinRT
