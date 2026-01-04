@@ -2,8 +2,6 @@
 title = "Things I Like"
 +++
 
-# Things I Like
-
 A collection of books, music, tools, and other things that have influenced me or that I just really enjoy. Consider this a living document—I'll update it as I discover new favorites.
 
 ## Books
