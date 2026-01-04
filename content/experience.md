@@ -4,41 +4,48 @@ title = "Experience"
 
 # Professional Experience
 
-## Senior Software Engineer
-**TechCorp Solutions** • 2022 - Present
+## Systems Software Engineer
+**SRAM** • Feb 2025 - Present
 
-Leading the development of a distributed microservices platform serving millions of users. Responsible for architecture decisions, code review, and mentoring junior engineers.
-
-**Key achievements:**
-- Redesigned the authentication system, reducing login times by 60% and improving security posture
-- Implemented comprehensive monitoring and observability, reducing mean time to detection for incidents from hours to minutes
-- Led migration from monolith to microservices, improving deployment frequency from monthly to daily
-- Mentored 3 junior engineers, two of whom were promoted to mid-level roles
-
-**Technologies:** Rust, Go, TypeScript, PostgreSQL, Redis, Kubernetes, AWS
-
-## Software Engineer
-**StartupXYZ** • 2020 - 2022
-
-Full-stack development for a B2B SaaS platform. Worked across the entire stack from database design to frontend implementation.
+Architect, implement, and support a cross platform Bluetooth Low Energy (BLE) library written in Rust to centralize BLE implementations across the company.
+Directly supported the adoption of this library in applications used for manufacturing scenarios of new products.
+Coordinated with our firmware engineers in Germany to provide holistic solutions to problems and standardize developer tooling company wide.
 
 **Key achievements:**
-- Built the initial MVP from scratch, launching in 4 months with 20+ beta customers
-- Implemented real-time collaboration features using WebSockets and operational transforms
-- Reduced page load times by 70% through optimization and caching strategies
-- Created internal tooling that automated deployment processes, saving 10+ hours per week
+- Implemented firmware update retry logic to improve DFU resiliency via "parameter back off" (reduced PRN, reduced data chunk sizes, etc)
+- Built out a remotely accessible hardware-in-the-loop laboratory + a software stack for running arbitrary software against physical hardware (AXS devices)
+- Built a framework for exposing complex Bluetooth scenarios as reproducible, easy to run commands in our internal cli application
+- Integrated our cli's "scenario" tests with our remote hardware-in-the-loop lab for a reliable integration test suite that is part of our CI flow
+- Benchmarked and limit tested concurrent DFU with standardized desktop BLE hardware
 
-**Technologies:** TypeScript, React, Node.js, PostgreSQL, Docker, AWS
+**Technologies:** Rust, C++, Tauri, Nrf52, TypeScript, Bluez, Corebluetooth, WinRT
 
-## Junior Software Engineer
-**Digital Agency Co** • 2018 - 2020
+## Associate Application Engineer
+**SRAM** • Feb 2023 - Feb 2025
 
-Developed custom web applications for clients across various industries. Gained broad exposure to different tech stacks and problem domains.
+Maintained and extended Product Lifecycle Management software (PLM) called [Windchill](https://www.ptc.com/en/products/windchill).
+Worked on a team of 3 software engineers in coordination with 6-8 Business Analysts located across all SRAM locations internationally who in turn interfaced with the design and manufacturing engineers to establish need for process improvement or new features in our PLM software.
 
 **Key achievements:**
-- Delivered 15+ client projects on time and within budget
-- Built a reusable component library that reduced development time for new projects by 30%
-- Introduced automated testing practices, improving code quality and reducing production bugs
-- Collaborated directly with clients to gather requirements and provide technical guidance
+- Implemented new features used alongside Windchill to track hazardous materials in product BOMs for regional shipping compliance
+- Contributed new features to and maintained a 20+ year old Java codebase
+- Modernized and improved the projects use of Java's type system to catch more errors at compile time
+- Refactored project-wide logging to reduce runtime performance by up to 45%
+- Managed deployments of new releases across staging, training, and production environments
+- Built UIs with [ExtJS](https://www.sencha.com/products/extjs)
 
-**Technologies:** JavaScript, Python, Django, React, PostgreSQL, MySQL
+**Technologies:** Java, Windchill, ExtJS, Windows Administration
+
+## Software Engineer (College)
+**Verve Industrial Protection** • Sept 2019 - Aug 2021
+
+Supported an ICS/OT Endpoint Management solution by adding new device support and reverse engineering network traffic to and from PLCs.
+Member of the Agentless Device Inventory (ADI) team.
+
+**Key achievements:**
+- Researched and investigated PLC's via reading manufacturer provided specifications or reverse engineering communication protocols with Wireshark
+- Added new device support to our product by writing C modules that were exposed to the Python application via cpython
+- Interacted with Rockwell, Hirschmann, and Bachmann family devices
+- Built a Python library for performing Address Resolution Protocol scans from Windows XP hosts using exclusively Python 2.7 to satisfy vendor constraints
+
+**Technologies:** C, Python2.7, Python3, Wireshark, Docker
