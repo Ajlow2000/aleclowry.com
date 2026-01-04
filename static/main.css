@@ -632,6 +632,41 @@ footer {
   color: var(--grey2);
 }
 
+/* Style markdown-rendered experience content */
+/* Reduce spacing between job title and company/date line */
+article h2 {
+  margin-bottom: 0.25rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--bg3);
+}
+
+/* Remove border from first job title */
+article h2:first-of-type {
+  border-top: none;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+/* Target the experience page specifically using article or content wrapper */
+article h2 + p strong:first-of-type,
+.content h2 + p strong:first-of-type {
+  color: var(--green);
+  font-weight: 600;
+}
+
+/* Make date line (paragraph right after h2) muted grey */
+article h2 + p,
+.content h2 + p {
+  color: var(--grey1);
+  font-size: 0.95rem;
+  margin-top: 0;
+
+  @media (min-width: 768px) {
+    font-size: 0.9rem;
+  }
+}
+
 /* Things I Like section */
 .things-category {
   margin-bottom: 2.5rem;

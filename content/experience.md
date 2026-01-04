@@ -2,8 +2,6 @@
 title = "Experience"
 +++
 
-# Professional Experience
-
 ## Systems Software Engineer
 **SRAM** • Feb 2025 - Present
 
