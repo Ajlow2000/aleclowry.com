@@ -235,7 +235,8 @@ nav {
     height: 22px;
     width: 22px;
     left: 2px;
-    bottom: 2px;
+    top: 50%;
+    transform: translateY(-50%);
     background-color: var(--yellow);
     transition: all 0.3s ease;
     border-radius: 50%;
@@ -252,7 +253,7 @@ input:checked + .slider {
 }
 
 input:checked + .slider:before {
-  transform: translateX(24px);
+  transform: translateX(24px) translateY(-50%);
   content: "🌙";
   background-color: var(--blue);
 }
