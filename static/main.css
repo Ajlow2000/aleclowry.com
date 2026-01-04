@@ -1,3 +1,12 @@
+/*
+ * Modern CSS with Native Nesting
+ *
+ * This stylesheet uses CSS Nesting, a modern CSS feature standardized in 2023-2024.
+ * Browser support: Chrome 120+, Firefox 117+, Safari 17.2+, Edge 120+ (92% global coverage)
+ *
+ * If you need to support older browsers, the SCSS version is available in the git history.
+ */
+
 /* Everforest Color Scheme - Dark and Light Modes */
 
 :root {
