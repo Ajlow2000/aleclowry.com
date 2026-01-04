@@ -1,5 +1,21 @@
+# Zola build output
+public/
+
+# Nix
+result
+result-*
+
+# Editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
 .DS_Store
-resources/
-zig-cache/
-.zig-cache/
-zig-out/
+Thumbs.db
+
+# Temporary files
+*.tmp
+*.log
