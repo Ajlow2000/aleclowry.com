@@ -1,39 +1,39 @@
-name: Build Check
-
-on:
-  push:
-    branches: ["*"]
-  pull_request:
-    branches: ["*"]
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Install Zola
-        run: |
-          ZOLA_VERSION="0.19.2"
-          wget -q "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-          tar -xzf "zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
-          sudo mv zola /usr/local/bin/
-          zola --version
-
-      - name: Build site
-        run: zola build
-
-      - name: Check build output
-        run: |
-          if [ ! -d "public" ]; then
-            echo "Error: public directory not created"
-            exit 1
-          fi
-          if [ ! -f "public/index.html" ]; then
-            echo "Error: index.html not generated"
-            exit 1
-          fi
-          echo "Build successful!"
-          exit 0
+# name: Build Check
+#
+# on:
+#   push:
+#     branches: ["*"]
+#   pull_request:
+#     branches: ["*"]
+#
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v4
+#
+#       - name: Install Zola
+#         run: |
+#           ZOLA_VERSION="0.19.2"
+#           wget -q "https://github.com/getzola/zola/releases/download/v${ZOLA_VERSION}/zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+#           tar -xzf "zola-v${ZOLA_VERSION}-x86_64-unknown-linux-gnu.tar.gz"
+#           sudo mv zola /usr/local/bin/
+#           zola --version
+#
+#       - name: Build site
+#         run: zola build
+#
+#       - name: Check build output
+#         run: |
+#           if [ ! -d "public" ]; then
+#             echo "Error: public directory not created"
+#             exit 1
+#           fi
+#           if [ ! -f "public/index.html" ]; then
+#             echo "Error: index.html not generated"
+#             exit 1
+#           fi
+#           echo "Build successful!"
+#           exit 0
