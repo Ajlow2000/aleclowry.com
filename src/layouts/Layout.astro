@@ -39,7 +39,6 @@ const currentPath = Astro.url.pathname;
           <a class="nav-logo" href="/">alec lowry</a>
           <div class="nav-links">
             <a class:list={["nav-link", { active: currentPath.startsWith("/writing") }]} href="/writing">writing</a>
-            <a class:list={["nav-link", { active: currentPath === "/likes" || currentPath === "/likes/" }]} href="/likes">likes</a>
           </div>
           <div class="nav-right">
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
