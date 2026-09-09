@@ -1,5 +1,5 @@
 ---
-title: Beginning a Game(?) in Bevy
+title: Building a 2D Simulator
 date: 2026-09-08
 description: How a failed interview turned into a passion project
 draft: true
@@ -11,6 +11,7 @@ series:
 
 import { Image } from 'astro:assets';
 import buzzImg from '../../assets/buzz-lightyear-meme.jpeg';
+import fleetsimMovementV0 from '../../assets/fleetsim-movement-v0.mp4';
 
 My first exposure to PC games was Star Wars: Empire at War.
 My dad had the physical disc for our iMac that sat in the family library.
@@ -120,7 +121,7 @@ The simulator then uses a static velocity vector to calculate the next coordinat
 
 _tada_:
 <video autoplay loop muted playsinline width="100%">
-  <source src="/assets/fleetsim-movement-v0.mp4" type="video/mp4" />
+  <source src={fleetsimMovementV0} type="video/mp4" />
 </video>
 
 Now, this is a pretty simple feature that would have been easy to reason about potential bugs and write tests manually for, but let's pretend it was more complex and we didn't want to write the test by hand.
