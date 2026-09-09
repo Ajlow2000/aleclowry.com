@@ -9,12 +9,8 @@
     "preview": "astro preview"
   },
   "dependencies": {
-    "@astrojs/mdx": "^8.0.1",
-    "@myriaddreamin/typst-ts-node-compiler": "^0.7.0-rc2",
-    "@myriaddreamin/typst-ts-renderer": "^0.7.0-rc2",
-    "@myriaddreamin/typst.ts": "^0.7.0-rc2",
+    "@astrojs/mdx": "^4.3.14",
     "astro": "^5.5.3",
-    "astro-typst": "^0.12.3",
     "cheerio": "^1.2.0",
     "shiki": "^4.0.2"
   }

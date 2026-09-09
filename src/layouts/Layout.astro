@@ -338,22 +338,20 @@ const currentPath = Astro.url.pathname;
   .codeblock code { font-family: inherit; }
 
   /* Shiki bare <pre> blocks also need themed scrollbars */
-  .astro-code, .shiki {
+  .astro-code {
     scrollbar-width: thin;
     scrollbar-color: var(--code-line) var(--code-bg);
   }
-  .astro-code::-webkit-scrollbar, .shiki::-webkit-scrollbar { height: 6px; }
-  .astro-code::-webkit-scrollbar-track, .shiki::-webkit-scrollbar-track { background: var(--code-bg); }
-  .astro-code::-webkit-scrollbar-thumb, .shiki::-webkit-scrollbar-thumb {
+  .astro-code::-webkit-scrollbar { height: 6px; }
+  .astro-code::-webkit-scrollbar-track { background: var(--code-bg); }
+  .astro-code::-webkit-scrollbar-thumb {
     background: var(--code-line); border-radius: 3px;
   }
-  .astro-code::-webkit-scrollbar-thumb:hover, .shiki::-webkit-scrollbar-thumb:hover {
+  .astro-code::-webkit-scrollbar-thumb:hover {
     background: var(--ink-4);
   }
 
-  /* Shiki dual-theme switching (markdown uses .astro-code, typst uses .shiki) */
-  html[data-theme="dark"] .shiki,
-  html[data-theme="dark"] .shiki span,
+  /* Shiki dual-theme switching */
   html[data-theme="dark"] .astro-code,
   html[data-theme="dark"] .astro-code span {
     color: var(--shiki-dark) !important;

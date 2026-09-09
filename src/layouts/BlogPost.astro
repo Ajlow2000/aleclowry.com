@@ -264,27 +264,6 @@ const hasToc = tocHeadings.length > 0;
     padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--line-2);
   }
 
-  /* Typst support */
-  .post-body :global(.sr-only) {
-    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-    overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
-  }
-  .post-body :global(figure.typst-figure) {
-    margin: 1.5rem 0; text-align: center;
-  }
-  .post-body :global(figure.typst-figure figcaption) {
-    font-size: 0.85rem; color: var(--ink-3); margin-top: 0.5rem;
-  }
-  .post-body :global(span.typst-math-inline) {
-    display: inline-block; vertical-align: middle; line-height: 1;
-  }
-  .post-body :global(span.typst-math-inline svg) {
-    height: 1rem; width: auto; overflow: visible;
-  }
-  .post-body :global(span.typst-math-block) {
-    display: block; text-align: center; margin: 1.5rem 0;
-  }
-  .post-body :global(figure.typst-figure table) { margin: 0 auto; width: max-content; max-width: 100%; }
 </style>
 
 <script>
@@ -315,35 +294,6 @@ const hasToc = tocHeadings.length > 0;
       });
     });
   }
-
-  // Typst inline math merge (from original)
-  document.querySelectorAll('article span.typst-math-inline').forEach(mathSpan => {
-    const mathP = mathSpan.parentElement;
-    if (!mathP || mathP.tagName !== 'P') return;
-    const isIsolated = [...mathP.childNodes].every(
-      node => node === mathSpan || (node.nodeType === 3 && node.textContent!.trim() === '')
-    );
-    if (!isIsolated) return;
-    const prevP = mathP.previousElementSibling;
-    if (prevP?.tagName !== 'P') return;
-    const nextP = mathP.nextElementSibling;
-    prevP.appendChild(mathSpan);
-    mathP.remove();
-    if (nextP?.tagName === 'P') {
-      while (nextP.firstChild) prevP.appendChild(nextP.firstChild);
-      nextP.remove();
-    }
-  });
-
-  // Typst SVG conversion
-  document.querySelectorAll('article span.typst-math-inline img.typst-frame').forEach(img => {
-    const src = (img as HTMLImageElement).getAttribute('src') ?? '';
-    if (!src.startsWith('data:image/svg+xml;base64,')) return;
-    const svgText = atob(src.slice('data:image/svg+xml;base64,'.length));
-    const doc = new DOMParser().parseFromString(svgText, 'image/svg+xml');
-    const svg = doc.documentElement;
-    img.replaceWith(svg);
-  });
 
   // Code block copy buttons
   const iconCopy = `<svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/></svg>`;

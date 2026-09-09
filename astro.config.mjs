@@ -1,6 +1,5 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
-import { typst } from "astro-typst";
 import { SYNTAX_THEMES } from "./src/config.ts";
 
 export default defineConfig({
@@ -36,10 +35,5 @@ export default defineConfig({
       ],
     },
   },
-  integrations: [mdx(), typst({ target: () => "html" })],
-  vite: {
-    ssr: {
-      external: ["@myriaddreamin/typst-ts-node-compiler"],
-    },
-  },
+  integrations: [mdx()],
 });
