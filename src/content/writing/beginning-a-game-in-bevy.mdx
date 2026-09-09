@@ -9,6 +9,9 @@ series:
   part: 1
 ---
 
+import { Image } from 'astro:assets';
+import buzzImg from '../../assets/buzz-lightyear-meme.jpeg';
+
 My first exposure to PC games was Star Wars: Empire at War.
 My dad had the physical disc for our iMac that sat in the family library.
 I forget what age I was, but I remember always being so excited to pull up a chair and play (watch) the conquest story mode with my Dad.
@@ -56,7 +59,7 @@ I'll probably reference this project with that name for a bit, but it will not b
 
 I've chosen to use Rust + Bevy.
 
-![I swear I'm unique](/assets/buzz-lightyear-meme.jpeg)
+<Image src={buzzImg} alt="I swear I'm unique" />
 
 BUT- I don't have super technical reasons for this.
 I write Rust in my day job, so ironically it's just the language I can probably get up to speed with the fastest.
