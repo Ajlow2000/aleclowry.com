@@ -1,5 +1,7 @@
 ---
 import { getEntry } from "astro:content";
+import Nav from "./Nav.astro";
+import Footer from "./Footer.astro";
 
 interface Props {
   title: string;
@@ -45,62 +47,12 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
   </head>
   <body>
     <div class="app">
-      <nav class="nav">
-        <div class="container-wide nav-inner">
-          <a class="nav-logo" href="/">{siteTitle}</a>
-          <div class="nav-links">
-            {navLinks.map((link) => (
-              <a class:list={["nav-link", { active: currentPath.startsWith(link.href) }]} href={link.href}>{link.label}</a>
-            ))}
-          </div>
-          <div class="nav-right">
-            <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-              <svg class="icon-moon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-              <svg class="icon-sun" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
-            </button>
-            <button class="menu-toggle" id="menu-toggle" aria-label="Menu" aria-expanded="false">
-              <svg class="icon-menu" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
-              <svg class="icon-close" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
-            </button>
-          </div>
-        </div>
-      </nav>
-      <div class="mobile-drawer" id="mobile-drawer">
-        {navLinks.map((link) => (
-          <a class:list={["nav-link", { active: currentPath.startsWith(link.href) }]} href={link.href}>{link.label}</a>
-        ))}
-      </div>
+      <Nav siteTitle={siteTitle} navLinks={navLinks} currentPath={currentPath} />
       <div class="main-content">
         <slot />
       </div>
-      <footer class="footer">
-        <div class="container-wide footer-inner">
-          <span set:html={copyright} />
-          <span class="links">
-            {socialLinks.map((link) => (
-              <a href={link.href}>{link.label}</a>
-            ))}
-          </span>
-        </div>
-      </footer>
+      <Footer copyright={copyright} socialLinks={socialLinks} />
     </div>
-
-    <script>
-      const toggle = document.getElementById("theme-toggle")!;
-      toggle.addEventListener("click", () => {
-        const current = document.documentElement.getAttribute("data-theme");
-        const next = current === "light" ? "dark" : "light";
-        document.documentElement.setAttribute("data-theme", next);
-        localStorage.setItem("alec-theme", next);
-      });
-
-      const menuBtn = document.getElementById("menu-toggle")!;
-      const drawer = document.getElementById("mobile-drawer")!;
-      menuBtn.addEventListener("click", () => {
-        const open = drawer.classList.toggle("open");
-        menuBtn.setAttribute("aria-expanded", String(open));
-      });
-    </script>
   </body>
 </html>
 
@@ -193,88 +145,6 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
   .container { max-width: 720px; margin: 0 auto; padding: 0 24px; width: 100%; }
   .container-wide { max-width: 1296px; margin: 0 auto; padding: 0 32px; width: 100%; }
 
-  /* ── Top Nav ────────────────────────────────────────── */
-  .nav {
-    position: sticky; top: 0; z-index: 50;
-    background: color-mix(in srgb, var(--bg) 80%, transparent);
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
-    border-bottom: 1px solid var(--line);
-  }
-  .nav-inner {
-    display: flex; align-items: center; justify-content: space-between;
-    height: 56px; position: relative;
-  }
-  .nav-logo {
-    font-family: var(--f-display); font-weight: 700; font-size: 18px;
-    color: var(--ink); text-decoration: none;
-    letter-spacing: -0.02em; white-space: nowrap;
-  }
-  .nav-logo:hover { color: var(--forest); }
-  .nav-links {
-    display: flex; gap: 28px; align-items: center;
-    position: absolute; left: 50%; top: 50%;
-    transform: translate(-50%, -50%);
-  }
-  .nav-link {
-    font-family: var(--f-ui); font-size: 14px; color: var(--ink-2);
-    text-decoration: none; padding: 4px 0;
-    border-bottom: 1.5px solid transparent;
-    transition: color 0.15s, border-color 0.15s;
-  }
-  .nav-link:hover { color: var(--forest); }
-  .nav-link.active { color: var(--forest); border-bottom-color: var(--forest); }
-  .nav-right { display: flex; gap: 16px; align-items: center; }
-
-  .theme-toggle {
-    background: transparent; border: 1px solid var(--line); color: var(--ink-2);
-    width: 32px; height: 32px; border-radius: 16px;
-    display: flex; align-items: center; justify-content: center;
-    cursor: pointer; transition: all 0.15s;
-  }
-  .theme-toggle:hover { border-color: var(--forest); color: var(--forest); }
-
-  /* Show moon in light, sun in dark */
-  .icon-sun { display: none; }
-  .icon-moon { display: block; }
-  [data-theme="dark"] .icon-sun { display: block; }
-  [data-theme="dark"] .icon-moon { display: none; }
-
-  .menu-toggle {
-    display: none; background: transparent; border: 1px solid var(--line);
-    width: 32px; height: 32px; border-radius: 6px;
-    align-items: center; justify-content: center; cursor: pointer; color: var(--ink-2);
-  }
-  .menu-toggle:hover { color: var(--forest); border-color: var(--forest); }
-  .menu-toggle .icon-menu { display: block; }
-  .menu-toggle .icon-close { display: none; }
-  .mobile-drawer.open ~ .nav .icon-menu,
-  .menu-toggle[aria-expanded="true"] .icon-menu { display: none; }
-  .menu-toggle[aria-expanded="true"] .icon-close { display: block; }
-
-  /* Mobile drawer */
-  .mobile-drawer {
-    position: fixed; inset: 56px 0 0 0; z-index: 40;
-    background: var(--bg);
-    padding: 24px;
-    display: flex; flex-direction: column; gap: 8px;
-    align-items: center; justify-content: center;
-    text-align: center;
-    border-top: 1px solid var(--line);
-    transform: translateY(-8px); opacity: 0; pointer-events: none;
-    transition: transform 0.2s, opacity 0.2s;
-  }
-  .mobile-drawer.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
-  .mobile-drawer .nav-link {
-    font-size: 28px; padding: 14px 0; border: none;
-    font-family: var(--f-display);
-  }
-
-  @media (max-width: 760px) {
-    .nav-links { display: none; }
-    .menu-toggle { display: flex; }
-  }
-
   /* ── Tags ───────────────────────────────────────────── */
   .tag {
     display: inline-flex; align-items: center;
@@ -338,7 +208,6 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
     margin: 0; padding: 16px 18px; overflow-x: auto;
     font-family: var(--f-mono); font-size: 13px; line-height: 1.55;
     color: var(--ink);
-    /* Themed horizontal scrollbar */
     scrollbar-width: thin;
     scrollbar-color: var(--code-line) var(--code-bg);
   }
@@ -361,9 +230,7 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
   .astro-code::-webkit-scrollbar-thumb {
     background: var(--code-line); border-radius: 3px;
   }
-  .astro-code::-webkit-scrollbar-thumb:hover {
-    background: var(--ink-4);
-  }
+  .astro-code::-webkit-scrollbar-thumb:hover { background: var(--ink-4); }
 
   /* Shiki dual-theme switching */
   html[data-theme="dark"] .astro-code,
@@ -374,19 +241,4 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
     font-weight: var(--shiki-dark-font-weight) !important;
     text-decoration: var(--shiki-dark-text-decoration) !important;
   }
-
-  /* ── Footer ─────────────────────────────────────────── */
-  .footer {
-    border-top: 1px solid var(--line);
-    padding: 24px 0;
-    margin-top: 24px;
-  }
-  .footer-inner {
-    display: flex; justify-content: space-between; align-items: center;
-    font-family: var(--f-ui); font-size: 13px; color: var(--ink-3);
-    flex-wrap: wrap; gap: 16px;
-  }
-  .footer a { color: var(--ink-3); text-decoration: none; }
-  .footer a:hover { color: var(--forest); }
-  .footer .links { display: flex; gap: 20px; }
 </style>

@@ -1,5 +1,5 @@
 ---
-import Layout from "./Layout.astro";
+import BaseLayout from "./BaseLayout.astro";
 import { toSlug, formatDate } from "../utils/format";
 import { getCollection } from "astro:content";
 
@@ -38,7 +38,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
 const hasToc = tocHeadings.length > 0;
 ---
 
-<Layout title={`${title} — Alec Lowry`} description={description} ogType="article">
+<BaseLayout title={`${title} — Alec Lowry`} description={description} ogType="article">
   <div class:list={["post-layout", { "no-toc": !hasToc }]}>
     {tocHeadings.length > 0 && (
       <aside class="toc" id="toc">
@@ -91,7 +91,7 @@ const hasToc = tocHeadings.length > 0;
       </div>
     </article>
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .post-layout {

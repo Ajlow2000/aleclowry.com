@@ -1,12 +1,12 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import BaseLayout from "../components/BaseLayout.astro";
 import { getEntry } from "astro:content";
 
 const page = await getEntry("pages", "404");
 const lede = page?.data.lede ?? "The requested page doesn't exist.";
 ---
 
-<Layout title="404 — Alec Lowry">
+<BaseLayout title="404 — Alec Lowry">
   <div class="container notfound">
     <p class="number">404<span class="dot" aria-hidden="true"></span></p>
     <p class="lede">{lede}</p>
@@ -14,7 +14,7 @@ const lede = page?.data.lede ?? "The requested page doesn't exist.";
       <a href="/" class="btn btn-primary">Home</a>
     </div>
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .notfound {

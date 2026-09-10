@@ -1,6 +1,6 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
-import { syntaxThemeLight, syntaxThemeDark } from "./src/lib/syntax-theme.ts";
+import { syntaxThemeLight, syntaxThemeDark } from "./src/utils/syntax-theme.ts";
 
 export default defineConfig({
   output: "static",

@@ -1,5 +1,5 @@
 ---
-import Layout from "../../../layouts/Layout.astro";
+import BaseLayout from "../../../components/BaseLayout.astro";
 import PostList from "../../../components/PostList.astro";
 import { getPosts } from "../../../utils/get-posts";
 
@@ -16,13 +16,13 @@ const posts = (await getPosts(({ data }) => import.meta.env.PROD ? !data.draft :
   .sort((a, b) => b.resolvedDate.valueOf() - a.resolvedDate.valueOf());
 ---
 
-<Layout title={`#${tag} — Alec Lowry`}>
+<BaseLayout title={`#${tag} — Alec Lowry`}>
   <div class="container tag-page">
     <span class="eyebrow">Tag</span>
     <h1>#{tag}</h1>
     <PostList posts={posts} />
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .tag-page { padding: 56px 0 80px; }

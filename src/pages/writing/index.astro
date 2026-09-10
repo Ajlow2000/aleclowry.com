@@ -1,5 +1,5 @@
 ---
-import Layout from "../../layouts/Layout.astro";
+import BaseLayout from "../../components/BaseLayout.astro";
 import { formatDate, toSlug } from "../../utils/format";
 import { getPosts } from "../../utils/get-posts";
 
@@ -23,7 +23,7 @@ const tags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b
 const series = Array.from(seriesCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
 ---
 
-<Layout title="Writing — Alec Lowry">
+<BaseLayout title="Writing — Alec Lowry">
   <div class="container-wide">
     <div class="blog-layout">
       <aside class="blog-sidebar">
@@ -107,7 +107,7 @@ const series = Array.from(seriesCounts.entries()).sort((a, b) => a[0].localeComp
       </main>
     </div>
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .blog-layout {

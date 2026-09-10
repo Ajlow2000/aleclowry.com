@@ -1,5 +1,5 @@
 ---
-import Layout from "../../../layouts/Layout.astro";
+import BaseLayout from "../../../components/BaseLayout.astro";
 import PostList from "../../../components/PostList.astro";
 import { toSlug } from "../../../utils/format";
 import { getPosts } from "../../../utils/get-posts";
@@ -25,13 +25,13 @@ const posts = (await getPosts(({ data }) => import.meta.env.PROD ? !data.draft :
   .sort((a, b) => a.data.series!.part - b.data.series!.part);
 ---
 
-<Layout title={`${name} — Alec Lowry`}>
+<BaseLayout title={`${name} — Alec Lowry`}>
   <div class="container series-detail-page">
     <span class="eyebrow">Series</span>
     <h1>{name}</h1>
     <PostList posts={posts} numbered />
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .series-detail-page { padding: 56px 0 80px; }

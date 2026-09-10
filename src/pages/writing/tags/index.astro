@@ -1,6 +1,6 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../../../layouts/Layout.astro";
+import BaseLayout from "../../../components/BaseLayout.astro";
 
 const posts = await getCollection("writing", ({ data }) => import.meta.env.PROD ? !data.draft : true);
 const tagCounts = new Map<string, number>();
@@ -12,7 +12,7 @@ posts.forEach((post) => {
 const tags = Array.from(tagCounts.entries()).sort((a, b) => b[1] - a[1]);
 ---
 
-<Layout title="Tags — Alec Lowry">
+<BaseLayout title="Tags — Alec Lowry">
   <div class="container tags-page">
     <span class="eyebrow">Browse by</span>
     <h1>Tags</h1>
@@ -25,7 +25,7 @@ const tags = Array.from(tagCounts.entries()).sort((a, b) => b[1] - a[1]);
       ))}
     </div>
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .tags-page { padding: 56px 0 80px; }

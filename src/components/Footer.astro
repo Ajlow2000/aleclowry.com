@@ -1,0 +1,36 @@
+---
+interface Props {
+  copyright: string;
+  socialLinks: { label: string; href: string }[];
+}
+
+const { copyright, socialLinks } = Astro.props;
+---
+
+<footer class="footer">
+  <div class="container-wide footer-inner">
+    <span set:html={copyright} />
+    <span class="links">
+      {socialLinks.map((link) => (
+        <a href={link.href}>{link.label}</a>
+      ))}
+    </span>
+  </div>
+</footer>
+
+<style is:global>
+  /* ── Footer ─────────────────────────────────────────── */
+  .footer {
+    border-top: 1px solid var(--line);
+    padding: 24px 0;
+    margin-top: 24px;
+  }
+  .footer-inner {
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: var(--f-ui); font-size: 13px; color: var(--ink-3);
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer a { color: var(--ink-3); text-decoration: none; }
+  .footer a:hover { color: var(--forest); }
+  .footer .links { display: flex; gap: 20px; }
+</style>

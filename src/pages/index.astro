@@ -1,12 +1,12 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import BaseLayout from "../components/BaseLayout.astro";
 import { getEntry, render } from "astro:content";
 
 const homeEntry = await getEntry("pages", "home");
 const { Content: Bio } = await render(homeEntry!);
 ---
 
-<Layout title="Alec Lowry's Website">
+<BaseLayout title="Alec Lowry's Website">
   <div class="landing">
     <div class="landing-inner">
       <!-- TODO: add headshot image -->
@@ -16,7 +16,7 @@ const { Content: Bio } = await render(homeEntry!);
       <div class="landing-bio"><Bio /></div>
     </div>
   </div>
-</Layout>
+</BaseLayout>
 
 <style>
   .landing {
