@@ -77,9 +77,11 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
     font-family: var(--f-ui);
     max-height: calc(100vh - 100px); overflow-y: auto;
   }
-  /* Shown only when parent .post-layout doesn't have .no-toc */
-  :global(.post-layout:not(.no-toc)) .toc {
-    display: block;
+  /* Shown only at the breakpoint where the 3-column grid is active */
+  @media (min-width: 1296px) {
+    :global(.post-layout:not(.no-toc)) .toc {
+      display: block;
+    }
   }
   .toc h4 {
     font-family: var(--f-ui); font-size: 11px; font-weight: 600;
