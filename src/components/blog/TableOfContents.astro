@@ -1,0 +1,127 @@
+---
+interface Props {
+  headings: { depth: number; slug: string; text: string }[];
+  seriesName?: string;
+  seriesSlug?: string;
+  currentPart?: number;
+  seriesTotal?: number;
+  prevPostSlug?: string;
+  nextPostSlug?: string;
+}
+
+const { headings, seriesName, seriesSlug, currentPart, seriesTotal, prevPostSlug, nextPostSlug } = Astro.props;
+
+const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+<aside class="toc" id="toc">
+  <h4>On this page</h4>
+  <ul>
+    {tocHeadings.map((h) => (
+      <li>
+        <a class={h.depth === 3 ? "h3-link" : ""} href={`#${h.slug}`} data-id={h.slug}>{h.text}</a>
+      </li>
+    ))}
+  </ul>
+  {seriesName && seriesSlug && (
+    <div class="series-nav">
+      <span class="label">Series</span>
+      <a class="name" href={`/writing/series/${seriesSlug}`}>{seriesName}</a>
+      <span class="progress">part {currentPart} of {seriesTotal}</span>
+      <div class="links">
+        {prevPostSlug ? (
+          <a href={`/writing/${prevPostSlug}`}>&larr; prev</a>
+        ) : <span />}
+        {nextPostSlug ? (
+          <a href={`/writing/${nextPostSlug}`}>next &rarr;</a>
+        ) : <span />}
+      </div>
+    </div>
+  )}
+</aside>
+
+<script>
+  // Scroll-spy
+  const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc a[data-id]");
+  if (tocLinks.length > 0) {
+    const ids = Array.from(tocLinks).map(a => a.dataset.id!);
+    const onScroll = () => {
+      const offset = 120;
+      let current = ids[0];
+      for (const id of ids) {
+        const el = document.getElementById(id);
+        if (el && el.getBoundingClientRect().top - offset <= 0) current = id;
+      }
+      tocLinks.forEach(a => {
+        a.classList.toggle("active", a.dataset.id === current);
+      });
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+
+    // Smooth scroll on click
+    tocLinks.forEach(a => {
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const el = document.getElementById(a.dataset.id!);
+        if (el) window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - 72, behavior: "smooth" });
+      });
+    });
+  }
+</script>
+
+<style>
+  .toc {
+    display: none;
+    position: sticky; top: 80px; align-self: start;
+    font-family: var(--f-ui);
+    max-height: calc(100vh - 100px); overflow-y: auto;
+  }
+  /* Shown only when parent .post-layout doesn't have .no-toc */
+  :global(.post-layout:not(.no-toc)) .toc {
+    display: block;
+  }
+  .toc h4 {
+    font-family: var(--f-ui); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em;
+    color: var(--ink-3); margin: 0 0 12px;
+  }
+  .toc ul {
+    list-style: none; padding: 0; margin: 0 0 24px;
+    display: flex; flex-direction: column; gap: 4px;
+    border-left: 1px solid var(--line);
+  }
+  .toc li { line-height: 1.4; }
+  .toc a {
+    display: block; padding: 4px 12px;
+    font-size: 13px; color: var(--ink-3);
+    text-decoration: none; margin-left: -1px;
+    border-left: 1.5px solid transparent;
+    transition: all 0.15s;
+  }
+  .toc a:hover { color: var(--ink); }
+  .toc a.active { color: var(--forest); border-left-color: var(--forest); }
+  .toc .h3-link { padding-left: 24px; font-size: 12px; }
+
+  /* Series nav */
+  .toc .series-nav {
+    border-top: 1px solid var(--line); padding-top: 16px;
+    display: flex; flex-direction: column; gap: 8px;
+  }
+  .toc .series-nav .label {
+    font-family: var(--f-ui); font-size: 11px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.12em; color: var(--ink-3);
+  }
+  .toc .series-nav .name {
+    font-size: 13px; color: var(--ink-2); text-decoration: none;
+    border-bottom: none; align-self: flex-start;
+    transition: color 0.15s;
+  }
+  .toc .series-nav a.name:hover { color: var(--forest); }
+  .toc .series-nav .progress { font-family: var(--f-mono); font-size: 11px; color: var(--ink-3); }
+  .toc .series-nav .links { display: flex; gap: 8px; margin-top: 4px; }
+  .toc .series-nav .links a {
+    padding: 4px 10px; border: 1px solid var(--line); border-radius: 4px;
+    font-size: 11px; flex: 1; text-align: center;
+  }
+</style>

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from "../../components/BaseLayout.astro";
-import { formatDate, toSlug } from "../../utils/format";
+import { formatDate, toSlug, postSlug } from "../../utils/format";
 import { getPosts } from "../../utils/get-posts";
 
 const posts = (await getPosts(({ data }) => import.meta.env.PROD ? !data.draft : true))
@@ -77,7 +77,7 @@ const series = Array.from(seriesCounts.entries()).sort((a, b) => a[0].localeComp
         <div class="post-list" id="post-list">
           {posts.map((p) => (
             <a class="post-list-item"
-               href={`/writing/${p.id.replace(/\.[^.]+$/, "")}`}
+               href={`/writing/${postSlug(p.id)}`}
                data-title={p.resolvedTitle.toLowerCase()}
                data-description={(p.data.description ?? "").toLowerCase()}
                data-tags={(p.data.tags ?? []).join(",")}

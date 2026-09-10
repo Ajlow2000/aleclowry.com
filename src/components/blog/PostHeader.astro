@@ -1,0 +1,53 @@
+---
+import { formatDate } from "../../utils/format";
+
+interface Props {
+  title: string;
+  date: Date;
+  tags?: string[];
+  seriesName?: string;
+  seriesSlug?: string;
+  currentPart?: number;
+}
+
+const { title, date, tags, seriesName, seriesSlug, currentPart } = Astro.props;
+const formatted = formatDate(date, "long");
+---
+
+<header>
+  {seriesName && seriesSlug ? (
+    <a class="eyebrow eyebrow-link" href={`/writing/series/${seriesSlug}`}>
+      {seriesName} &middot; part {currentPart}
+    </a>
+  ) : (
+    <span class="eyebrow">Essay</span>
+  )}
+  <h1>{title}</h1>
+  <div class="meta">
+    <span class="mono">{formatted}</span>
+    {tags?.map((t) => (
+      <a class="tag tag-mono" href={`/writing?tag=${encodeURIComponent(t)}`}>{t}</a>
+    ))}
+  </div>
+</header>
+
+<style>
+  header { margin-bottom: 40px; }
+  .eyebrow { margin-bottom: 12px; display: block; }
+  .eyebrow-link {
+    color: var(--forest); text-decoration: none; transition: opacity 0.15s;
+  }
+  .eyebrow-link:hover { opacity: 0.7; }
+  h1 {
+    font-size: clamp(36px, 5vw, 52px);
+    margin: 0 0 16px; font-weight: 700; letter-spacing: -0.02em;
+  }
+  .meta {
+    display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+    padding-top: 12px; border-top: 1px solid var(--line);
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: 32px; }
+  }
+</style>
