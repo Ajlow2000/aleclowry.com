@@ -1,7 +1,6 @@
 ---
 import { render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
-import SyntaxHighlightedContent from "../../components/SyntaxHighlightedContent.astro";
 import { getPosts } from "../../utils/get-posts";
 import type { ResolvedPost } from "../../utils/get-posts";
 
@@ -18,7 +17,5 @@ const { Content, headings } = await render(post);
 ---
 
 <BlogPost title={post.resolvedTitle} date={post.resolvedDate} description={post.data.description} post={post} headings={headings}>
-  <SyntaxHighlightedContent>
-    <Content />
-  </SyntaxHighlightedContent>
+  <Content />
 </BlogPost>
