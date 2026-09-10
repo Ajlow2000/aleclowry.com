@@ -45,6 +45,7 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
   const tocLinks = document.querySelectorAll<HTMLAnchorElement>(".toc a[data-id]");
   if (tocLinks.length > 0) {
     const ids = Array.from(tocLinks).map(a => a.dataset.id!);
+    let prevCurrent: string | null = null;
     const onScroll = () => {
       const offset = 120;
       let current: string | null = null;
@@ -55,6 +56,10 @@ const tocHeadings = headings.filter((h) => h.depth === 2 || h.depth === 3);
       tocLinks.forEach(a => {
         a.classList.toggle("active", a.dataset.id === current);
       });
+      if (current !== prevCurrent) {
+        prevCurrent = current;
+        history.replaceState(null, "", current ? `#${current}` : location.pathname);
+      }
     };
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });

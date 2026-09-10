@@ -146,4 +146,30 @@ const hasToc = headings.some((h) => h.depth === 2 || h.depth === 3);
   .post-body :global(td) {
     padding: 0.4rem 0.75rem; border-bottom: 1px solid var(--line-2);
   }
+
+  .post-body :global(h2),
+  .post-body :global(h3) { position: relative; }
+
+  .post-body :global(.heading-anchor) {
+    display: inline-flex; align-items: center;
+    opacity: 0; margin-left: 8px;
+    color: var(--ink-4); text-decoration: none;
+    vertical-align: middle; transition: opacity 0.15s;
+    font-family: var(--f-ui); font-weight: 400;
+  }
+  .post-body :global(h2:hover .heading-anchor),
+  .post-body :global(h3:hover .heading-anchor) { opacity: 1; }
+  .post-body :global(.heading-anchor:hover) { color: var(--forest); }
 </style>
+
+<script>
+  document.querySelectorAll<HTMLHeadingElement>(".post-body h2, .post-body h3").forEach(h => {
+    if (!h.id) return;
+    const a = document.createElement("a");
+    a.className = "heading-anchor";
+    a.href = `#${h.id}`;
+    a.setAttribute("aria-label", "Link to this section");
+    a.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>`;
+    h.appendChild(a);
+  });
+</script>
