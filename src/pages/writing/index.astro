@@ -19,7 +19,7 @@ posts.forEach((post) => {
   }
 });
 
-const tags = Array.from(tagCounts.entries()).sort((a, b) => b[1] - a[1]);
+const tags = Array.from(tagCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
 const series = Array.from(seriesCounts.entries()).sort((a, b) => a[0].localeCompare(b[0]));
 ---
 
