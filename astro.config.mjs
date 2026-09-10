@@ -1,12 +1,12 @@
 import { defineConfig } from "astro/config";
 import mdx from "@astrojs/mdx";
-import { SYNTAX_THEMES } from "./src/config.ts";
+import { syntaxThemeLight, syntaxThemeDark } from "./src/lib/syntax-theme.ts";
 
 export default defineConfig({
   output: "static",
   markdown: {
     shikiConfig: {
-      themes: SYNTAX_THEMES,
+      themes: { light: syntaxThemeLight, dark: syntaxThemeDark },
       transformers: [
         {
           name: "code-filename",
