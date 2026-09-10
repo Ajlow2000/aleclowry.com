@@ -2,8 +2,6 @@ import { execSync } from "node:child_process";
 import { statSync } from "node:fs";
 import { basename, join } from "node:path";
 
-// ── Title ────────────────────────────────────────────────────────────────────
-
 const LOWERCASE_WORDS = new Set([
   "a", "an", "the",
   "and", "but", "or", "for", "nor", "so", "yet",
@@ -51,8 +49,6 @@ export function resolveTitle(post: {
   const slug = basename(post.id).replace(/\.[^.]+$/, "");
   return slugToTitle(slug);
 }
-
-// ── Date ─────────────────────────────────────────────────────────────────────
 
 function getGitDate(postId: string): Date {
   const filePath = join(process.cwd(), "src", "content", "writing", postId);

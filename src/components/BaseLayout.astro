@@ -57,33 +57,8 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
 </html>
 
 <style is:global>
-  /* ── Theme: Light (default) ─────────────────────────── */
+  /* Theme: Dark (default) */
   :root {
-    --bg: #f6f0df;
-    --bg-2: #ede5cf;
-    --bg-3: #e3d9bd;
-    --line: #d2c6a3;
-    --line-2: #e0d6b8;
-    --ink: #1f1a12;
-    --ink-2: #524a37;
-    --ink-3: #7e745b;
-    --ink-4: #a89e80;
-    --forest: oklch(0.42 0.08 150);
-    --forest-2: oklch(0.42 0.08 150 / 0.12);
-    --forest-3: oklch(0.42 0.08 150 / 0.05);
-    --forest-strong: oklch(0.36 0.09 150);
-    --code-bg: #ece2c5;
-    --code-line: #d8cca8;
-    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
-
-    --f-display: "Newsreader", Georgia, serif;
-    --f-body: "Newsreader", Georgia, serif;
-    --f-ui: "Inter", system-ui, -apple-system, sans-serif;
-    --f-mono: "JetBrains Mono", ui-monospace, monospace;
-  }
-
-  /* ── Theme: Dark ────────────────────────────────────── */
-  [data-theme="dark"] {
     --bg: oklch(0.24 0.022 150);
     --bg-2: oklch(0.28 0.026 150);
     --bg-3: oklch(0.32 0.030 150);
@@ -100,9 +75,33 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
     --code-bg: oklch(0.28 0.026 150);
     --code-line: oklch(0.36 0.030 150);
     --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 4px 16px rgba(0,0,0,0.25);
+
+    --f-display: "Newsreader", Georgia, serif;
+    --f-body: "Newsreader", Georgia, serif;
+    --f-ui: "Inter", system-ui, -apple-system, sans-serif;
+    --f-mono: "JetBrains Mono", ui-monospace, monospace;
   }
 
-  /* ── Reset & Base ───────────────────────────────────── */
+  /* Theme: Light */
+  [data-theme="light"] {
+    --bg: #f6f0df;
+    --bg-2: #ede5cf;
+    --bg-3: #e3d9bd;
+    --line: #d2c6a3;
+    --line-2: #e0d6b8;
+    --ink: #1f1a12;
+    --ink-2: #524a37;
+    --ink-3: #7e745b;
+    --ink-4: #a89e80;
+    --forest: oklch(0.42 0.08 150);
+    --forest-2: oklch(0.42 0.08 150 / 0.12);
+    --forest-3: oklch(0.42 0.08 150 / 0.05);
+    --forest-strong: oklch(0.36 0.09 150);
+    --code-bg: #ece2c5;
+    --code-line: #d8cca8;
+    --shadow: 0 1px 2px rgba(0,0,0,0.04), 0 4px 16px rgba(0,0,0,0.04);
+  }
+
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
@@ -139,13 +138,11 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
 
   ::selection { background: var(--forest-2); }
 
-  /* ── Layout ─────────────────────────────────────────── */
   .app { min-height: 100vh; display: flex; flex-direction: column; }
   .main-content { flex: 1; display: flex; flex-direction: column; }
   .container { max-width: 720px; margin: 0 auto; padding: 0 24px; width: 100%; }
   .container-wide { max-width: 1296px; margin: 0 auto; padding: 0 32px; width: 100%; }
 
-  /* ── Tags ───────────────────────────────────────────── */
   .tag {
     display: inline-flex; align-items: center;
     font-family: var(--f-ui); font-size: 12px; font-weight: 500;
@@ -158,7 +155,6 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
   .tag.active { border-color: var(--forest); background: var(--forest-2); color: var(--forest); }
   .tag-mono { font-family: var(--f-mono); font-size: 11px; }
 
-  /* ── Eyebrow / labels ───────────────────────────────── */
   .eyebrow {
     font-family: var(--f-ui); font-size: 11px; font-weight: 600;
     text-transform: uppercase; letter-spacing: 0.12em; color: var(--forest);
@@ -167,7 +163,6 @@ const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} A
   .small { font-size: 13px; }
   .mono { font-family: var(--f-mono); font-size: 12px; color: var(--ink-3); white-space: nowrap; }
 
-  /* ── Buttons ────────────────────────────────────────── */
   .btn {
     display: inline-flex; align-items: center; gap: 6px;
     padding: 8px 16px; border-radius: 6px;
