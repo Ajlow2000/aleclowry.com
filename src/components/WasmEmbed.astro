@@ -1,0 +1,159 @@
+---
+interface Props {
+  demo: string;
+}
+
+const { demo } = Astro.props;
+---
+
+<div class="wasm-embed" id={`wasm-embed-${demo}`}>
+  <p class="wasm-loading">Loading demo...</p>
+  <div class="wasm-controls" hidden>
+    <button class="wasm-btn" id={`pp-${demo}`}>⏸ Pause</button>
+    <button class="wasm-btn" id={`rs-${demo}`}>↺ Restart</button>
+  </div>
+</div>
+
+<script define:vars={{ demo }}>
+  (async () => {
+    const container = document.getElementById(`wasm-embed-${demo}`);
+    const loading = container?.querySelector(".wasm-loading");
+    const controls = container?.querySelector(".wasm-controls");
+    const playPauseBtn = document.getElementById(`pp-${demo}`);
+    const restartBtn = document.getElementById(`rs-${demo}`);
+
+    try {
+      // Snapshot canvases that exist before Bevy runs.
+      const before = new Set(document.querySelectorAll("canvas"));
+
+      const { default: init, pause_app, resume_app, restart_app } =
+        await import(`/wasm/${demo}/test-client.js`);
+      await init();
+
+      // Poll until Bevy appends its canvas to the document.
+      const canvas = await new Promise((resolve) => {
+        const check = () => {
+          const found = [...document.querySelectorAll("canvas")].find(c => !before.has(c));
+          if (found) return resolve(found);
+          requestAnimationFrame(check);
+        };
+        check();
+      });
+
+      // Move the canvas into our container so it obeys our layout.
+      container?.appendChild(canvas);
+      loading?.remove();
+
+      // Show controls now that the demo is running.
+      if (controls) controls.removeAttribute("hidden");
+
+      let isPaused = false;
+
+      playPauseBtn?.addEventListener("click", () => {
+        isPaused = !isPaused;
+        if (isPaused) {
+          pause_app();
+          playPauseBtn.textContent = "▶ Play";
+        } else {
+          resume_app();
+          playPauseBtn.textContent = "⏸ Pause";
+        }
+      });
+
+      restartBtn?.addEventListener("click", () => {
+        restart_app();
+        // If paused, resume so the restarted sim immediately runs.
+        if (isPaused) {
+          resume_app();
+          isPaused = false;
+          if (playPauseBtn) playPauseBtn.textContent = "⏸ Pause";
+        }
+      });
+    } catch (err) {
+      console.error(`[WasmEmbed] Failed to load demo "${demo}":`, err);
+      if (container) container.innerHTML = `<p class="wasm-error">Failed to load demo.</p>`;
+    }
+  })();
+</script>
+
+<style>
+  .wasm-embed {
+    width: 100%;
+    max-width: 720px;
+    margin: 1.5em auto;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+  }
+
+  /*
+   * :global() is required because the canvas is created by Bevy at runtime
+   * and moved into the container via JS — it never receives Astro's scoped
+   * data attribute, so a normal scoped rule would never match it.
+   *
+   * !important is required because Bevy/winit sets inline styles on the canvas
+   * (e.g. style="width: 1920px; height: 1080px") to reflect its internal window
+   * size. In the CSS cascade, !important in a stylesheet beats a non-important
+   * inline style set by JavaScript, so this wins without fighting Bevy's JS.
+   */
+  :global(.wasm-embed canvas) {
+    width: 100% !important;
+    height: 100% !important;
+    display: block;
+    outline: none;
+  }
+
+  .wasm-loading,
+  .wasm-error {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    font-family: var(--f-ui);
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  .wasm-error { color: var(--ink-4); }
+
+  /* Controls overlay — fades in on hover so it doesn't distract from the demo. */
+  .wasm-controls {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    gap: 6px;
+    padding: 6px 8px;
+    background: linear-gradient(transparent, color-mix(in srgb, var(--bg) 70%, transparent));
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    pointer-events: none;
+  }
+
+  .wasm-embed:hover .wasm-controls {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .wasm-btn {
+    font-family: var(--f-ui);
+    font-size: 12px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg-2) 85%, transparent);
+    color: var(--ink);
+    cursor: pointer;
+    line-height: 1.5;
+  }
+
+  .wasm-btn:hover {
+    background: var(--bg-2);
+  }
+</style>
