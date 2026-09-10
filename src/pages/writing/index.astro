@@ -1,10 +1,10 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import { formatDate, toSlug } from "../../utils/format";
+import { getPosts } from "../../utils/get-posts";
 
-const posts = (await getCollection("writing", ({ data }) => import.meta.env.PROD ? !data.draft : true))
-  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf());
+const posts = (await getPosts(({ data }) => import.meta.env.PROD ? !data.draft : true))
+  .sort((a, b) => b.resolvedDate.valueOf() - a.resolvedDate.valueOf());
 
 const tagCounts = new Map<string, number>();
 const seriesCounts = new Map<string, number>();
@@ -78,17 +78,17 @@ const series = Array.from(seriesCounts.entries()).sort((a, b) => a[0].localeComp
           {posts.map((p) => (
             <a class="post-list-item"
                href={`/writing/${p.id.replace(/\.[^.]+$/, "")}`}
-               data-title={p.data.title.toLowerCase()}
+               data-title={p.resolvedTitle.toLowerCase()}
                data-description={(p.data.description ?? "").toLowerCase()}
                data-tags={(p.data.tags ?? []).join(",")}
                data-series={p.data.series?.name ?? ""}>
               <div class="meta">
-                <span class="mono">{formatDate(p.data.date)}</span>
+                <span class="mono">{formatDate(p.resolvedDate)}</span>
                 {p.data.series && (
                   <span class="eyebrow" style="font-size:10px">{p.data.series.name} &middot; part {p.data.series.part}</span>
                 )}
               </div>
-              <h3>{p.data.title}</h3>
+              <h3>{p.resolvedTitle}</h3>
               {p.data.description && <p>{p.data.description}</p>}
               {p.data.tags && p.data.tags.length > 0 && (
                 <div class="tag-row">

@@ -1,21 +1,23 @@
 ---
-import { getCollection, render } from "astro:content";
+import { render } from "astro:content";
 import BlogPost from "../../layouts/BlogPost.astro";
 import SyntaxHighlightedContent from "../../components/SyntaxHighlightedContent.astro";
+import { getPosts } from "../../utils/get-posts";
+import type { ResolvedPost } from "../../utils/get-posts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("writing", ({ data }) => import.meta.env.PROD ? !data.draft : true);
+  const posts = await getPosts(({ data }) => import.meta.env.PROD ? !data.draft : true);
   return posts.map((post) => ({
     params: { slug: post.id.replace(/\.[^.]+$/, "") },
     props: { post },
   }));
 }
 
-const { post } = Astro.props;
+const { post }: { post: ResolvedPost } = Astro.props;
 const { Content, headings } = await render(post);
 ---
 
-<BlogPost title={post.data.title} date={post.data.date} description={post.data.description} post={post} headings={headings}>
+<BlogPost title={post.resolvedTitle} date={post.resolvedDate} description={post.data.description} post={post} headings={headings}>
   <SyntaxHighlightedContent>
     <Content />
   </SyntaxHighlightedContent>

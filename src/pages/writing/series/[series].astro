@@ -1,11 +1,11 @@
 ---
-import { getCollection } from "astro:content";
 import Layout from "../../../layouts/Layout.astro";
 import PostList from "../../../components/PostList.astro";
 import { toSlug } from "../../../utils/format";
+import { getPosts } from "../../../utils/get-posts";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("writing", ({ data }) => import.meta.env.PROD ? !data.draft : true);
+  const posts = await getPosts(({ data }) => import.meta.env.PROD ? !data.draft : true);
   const seriesMap = new Map<string, string>();
   posts.forEach((post) => {
     if (post.data.series) {
@@ -20,7 +20,7 @@ export async function getStaticPaths() {
 }
 
 const { name } = Astro.props;
-const posts = (await getCollection("writing", ({ data }) => import.meta.env.PROD ? !data.draft : true))
+const posts = (await getPosts(({ data }) => import.meta.env.PROD ? !data.draft : true))
   .filter((p) => p.data.series?.name === name)
   .sort((a, b) => a.data.series!.part - b.data.series!.part);
 ---

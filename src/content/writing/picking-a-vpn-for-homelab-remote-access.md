@@ -1,6 +1,4 @@
 ---
-title: Picking a VPN for Homelab Remote Access
-date: 2026-03-26
 description: A brief exploration of available options
 draft: true
 tags: ["netbird", "networking", "homelab"]

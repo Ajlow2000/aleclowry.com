@@ -3,8 +3,8 @@ import { defineCollection, z } from "astro:content";
 const writing = defineCollection({
   type: "content",
   schema: z.object({
-    title: z.string(),
-    date: z.coerce.date(),
+    title: z.string().optional(),
+    date: z.coerce.date().optional(),
     description: z.string().optional(),
     draft: z.boolean().optional().default(false),
     tags: z.array(z.string()).optional().default([]),

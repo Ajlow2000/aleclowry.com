@@ -1,7 +1,5 @@
 ---
-title: Hello, Markdown
-date: 2026-03-16
-description: The first post on this blog.
+description: Filler content used for double checking styles (devtooling really)
 draft: true
 tags: ["markdown", "astro"]
 series:

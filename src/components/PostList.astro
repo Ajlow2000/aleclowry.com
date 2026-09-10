@@ -1,16 +1,9 @@
 ---
 import { formatDate } from "../utils/format";
-
-interface Post {
-  id: string;
-  data: {
-    title: string;
-    date: Date;
-  };
-}
+import type { ResolvedPost } from "../utils/get-posts";
 
 interface Props {
-  posts: Post[];
+  posts: ResolvedPost[];
   numbered?: boolean;
 }
 
@@ -21,8 +14,8 @@ const Tag = numbered ? "ol" : "ul";
 <Tag>
   {posts.map((post) => (
     <li>
-      <a href={`/writing/${post.id.replace(/\.[^.]+$/, "")}`}>{post.data.title}</a>
-      <time>{formatDate(post.data.date)}</time>
+      <a href={`/writing/${post.id.replace(/\.[^.]+$/, "")}`}>{post.resolvedTitle}</a>
+      <time>{formatDate(post.resolvedDate)}</time>
     </li>
   ))}
 </Tag>
