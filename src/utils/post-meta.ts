@@ -3,9 +3,24 @@ import { statSync } from "node:fs";
 import { basename, join } from "node:path";
 
 const LOWERCASE_WORDS = new Set([
-  "a", "an", "the",
-  "and", "but", "or", "for", "nor", "so", "yet",
-  "at", "by", "in", "of", "on", "to", "up", "as",
+  "a", 
+  "an", 
+  "the",
+  "and", 
+  "but", 
+  "or", 
+  "for", 
+  "nor", 
+  "so", 
+  "yet",
+  "at", 
+  "by", 
+  "in", 
+  "of", 
+  "on", 
+  "to", 
+  "up", 
+  "as",
 ]);
 
 // Words that should always be fully uppercased regardless of position.
