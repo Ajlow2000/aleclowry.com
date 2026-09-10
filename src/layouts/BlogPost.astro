@@ -96,20 +96,24 @@ const hasToc = tocHeadings.length > 0;
 <style>
   .post-layout {
     display: grid;
-    grid-template-columns: 200px minmax(0, 720px);
-    gap: 56px;
-    padding: 48px 32px 0;
-    max-width: 1080px;
-    margin: 0 auto;
-  }
-  .post-layout.no-toc {
     grid-template-columns: minmax(0, 720px);
     justify-content: center;
+    gap: 56px;
+    padding: 48px 32px 0;
+    margin: 0 auto;
+  }
+  /* 3-column layout only when the viewport is wide enough that the TOC
+     can appear alongside the full-width content column without shrinking it */
+  @media (min-width: 1296px) {
+    .post-layout:not(.no-toc) {
+      grid-template-columns: 200px minmax(0, 720px) 200px;
+      justify-content: initial;
+      max-width: 1296px;
+    }
   }
   .post-article { min-width: 0; }
   @media (max-width: 880px) {
-    .post-layout { grid-template-columns: 1fr; gap: 24px; padding: 32px 24px 0; }
-    .toc { display: none; }
+    .post-layout { gap: 24px; padding: 32px 24px 0; }
     .post-article { max-width: 720px; margin: 0 auto; width: 100%; }
   }
   @media (max-width: 480px) {
@@ -118,9 +122,13 @@ const hasToc = tocHeadings.length > 0;
 
   /* TOC */
   .toc {
+    display: none;
     position: sticky; top: 80px; align-self: start;
     font-family: var(--f-ui);
     max-height: calc(100vh - 100px); overflow-y: auto;
+  }
+  @media (min-width: 1296px) {
+    .post-layout:not(.no-toc) .toc { display: block; }
   }
   .toc h4 {
     font-family: var(--f-ui); font-size: 11px; font-weight: 600;
