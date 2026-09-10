@@ -1,0 +1,18 @@
+---
+interface Props {
+  title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<a class="nav-logo" href="/">{title}</a>
+
+<style is:global>
+  .nav-logo {
+    font-family: var(--f-display); font-weight: 700; font-size: 18px;
+    color: var(--ink); text-decoration: none;
+    letter-spacing: -0.02em; white-space: nowrap;
+  }
+  .nav-logo:hover { color: var(--forest); }
+</style>

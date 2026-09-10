@@ -1,0 +1,24 @@
+---
+---
+
+<button class="menu-toggle" id="menu-toggle" aria-label="Menu" aria-expanded="false">
+  <svg class="icon-menu" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+  <svg class="icon-close" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+</button>
+
+<style is:global>
+  .menu-toggle {
+    display: none; background: transparent; border: 1px solid var(--line);
+    width: 32px; height: 32px; border-radius: 6px;
+    align-items: center; justify-content: center; cursor: pointer; color: var(--ink-2);
+  }
+  .menu-toggle:hover { color: var(--forest); border-color: var(--forest); }
+  .menu-toggle .icon-menu { display: block; }
+  .menu-toggle .icon-close { display: none; }
+  .menu-toggle[aria-expanded="true"] .icon-menu { display: none; }
+  .menu-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+  @media (max-width: 760px) {
+    .menu-toggle { display: flex; }
+  }
+</style>

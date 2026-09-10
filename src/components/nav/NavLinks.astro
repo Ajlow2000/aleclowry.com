@@ -1,0 +1,28 @@
+---
+import NavLink from "./NavLink.astro";
+
+interface Props {
+  links: { label: string; href: string }[];
+  currentPath: string;
+}
+
+const { links, currentPath } = Astro.props;
+---
+
+<div class="nav-links">
+  {links.map((link) => (
+    <NavLink href={link.href} label={link.label} active={currentPath.startsWith(link.href)} />
+  ))}
+</div>
+
+<style is:global>
+  .nav-links {
+    display: flex; gap: 28px; align-items: center;
+    position: absolute; left: 50%; top: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  @media (max-width: 760px) {
+    .nav-links { display: none; }
+  }
+</style>

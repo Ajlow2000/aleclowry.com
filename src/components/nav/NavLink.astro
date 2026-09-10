@@ -1,0 +1,22 @@
+---
+interface Props {
+  href: string;
+  label: string;
+  active: boolean;
+}
+
+const { href, label, active } = Astro.props;
+---
+
+<a class:list={["nav-link", { active }]} href={href}>{label}</a>
+
+<style is:global>
+  .nav-link {
+    font-family: var(--f-ui); font-size: 14px; color: var(--ink-2);
+    text-decoration: none; padding: 4px 0;
+    border-bottom: 1.5px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+  }
+  .nav-link:hover { color: var(--forest); }
+  .nav-link.active { color: var(--forest); border-bottom-color: var(--forest); }
+</style>

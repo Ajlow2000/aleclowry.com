@@ -1,0 +1,37 @@
+---
+import NavLink from "./NavLink.astro";
+
+interface Props {
+  links: { label: string; href: string }[];
+  currentPath: string;
+}
+
+const { links, currentPath } = Astro.props;
+---
+
+<div class="mobile-drawer" id="mobile-drawer">
+  {links.map((link) => (
+    <NavLink href={link.href} label={link.label} active={currentPath.startsWith(link.href)} />
+  ))}
+</div>
+
+<style is:global>
+  .mobile-drawer {
+    position: fixed; inset: 56px 0 0 0; z-index: 40;
+    background: var(--bg);
+    padding: 24px;
+    display: flex; flex-direction: column; gap: 8px;
+    align-items: center; justify-content: center;
+    text-align: center;
+    border-top: 1px solid var(--line);
+    transform: translateY(-8px); opacity: 0; pointer-events: none;
+    transition: transform 0.2s, opacity 0.2s;
+  }
+  .mobile-drawer.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
+
+  /* Larger links inside the drawer */
+  .mobile-drawer .nav-link {
+    font-size: 28px; padding: 14px 0; border: none;
+    font-family: var(--f-display);
+  }
+</style>

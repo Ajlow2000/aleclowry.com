@@ -1,0 +1,51 @@
+---
+import NavLogo from "./NavLogo.astro";
+import NavLinks from "./NavLinks.astro";
+import ThemeToggle from "./ThemeToggle.astro";
+import MenuToggle from "./MenuToggle.astro";
+import MobileDrawer from "./MobileDrawer.astro";
+
+interface Props {
+  siteTitle: string;
+  navLinks: { label: string; href: string }[];
+  currentPath: string;
+}
+
+const { siteTitle, navLinks, currentPath } = Astro.props;
+---
+
+<nav class="nav">
+  <div class="container-wide nav-inner">
+    <NavLogo title={siteTitle} />
+    <NavLinks links={navLinks} currentPath={currentPath} />
+    <div class="nav-right">
+      <ThemeToggle />
+      <MenuToggle />
+    </div>
+  </div>
+</nav>
+<MobileDrawer links={navLinks} currentPath={currentPath} />
+
+<script>
+  const menuBtn = document.getElementById("menu-toggle")!;
+  const drawer = document.getElementById("mobile-drawer")!;
+  menuBtn.addEventListener("click", () => {
+    const open = drawer.classList.toggle("open");
+    menuBtn.setAttribute("aria-expanded", String(open));
+  });
+</script>
+
+<style is:global>
+  .nav {
+    position: sticky; top: 0; z-index: 50;
+    background: color-mix(in srgb, var(--bg) 80%, transparent);
+    backdrop-filter: saturate(180%) blur(12px);
+    -webkit-backdrop-filter: saturate(180%) blur(12px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px; position: relative;
+  }
+  .nav-right { display: flex; gap: 16px; align-items: center; }
+</style>
