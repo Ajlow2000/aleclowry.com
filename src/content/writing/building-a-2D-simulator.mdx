@@ -16,16 +16,17 @@ My dad had the physical disc for our iMac that sat in the family library.
 I forget what age I was, but I remember always being so excited to pull up a chair and play (watch) the conquest story mode with my Dad.
 I was/am a huge Star Wars fan and for a kid like me, a game that requires memorizing the names of various ships, their roles in a fleet and what other ships they were strong and weak into was perfect.
 Watching Imperial Star Destroyers maneuver around the map after being issued orders was the coolest thing ever.
-Flash forward to college: I had my first PC capable of playing some games and I finally got the Steam edition of SW:EaW and was able to bask in mod support that continues to keep that game alive to this day.
+Flash forward to college: I had my first PC capable of playing some games and I finally got the Steam edition of SW:EaW and was able to bask in it's mod support that continues to keep that game alive.
 To this day, it remains one of my favorite games to play.
 But alas, as I've grown up I find myself a little less drawn to consumption and little more interested in production and thus don't play super often.
 
 Now to address the article description: I did an interview with a company recently that asked me to complete a take home project.
 I was given a choice between something I don't even remember and "build a basic fleet ops simulator capable of tracking vessel's position as they move cargo between ports".
 I spent probably around 10-15 hours on my implementation for this (it was meh-- I had never built something like this before and made some regrettable architectural decisions), went and presented my work, and _wa wa_, didn't get the job.
-But it was a cool project that got me thinking a lot about how to design a deterministic simulator/state machine thing with testing/visibility as a primary goal (in my job as a SWE I largely maintain existing projects).
+But it was a cool project that got me thinking a lot about how to design a deterministic simulator/state machine thing with testing as a primary goal (in my job as a SWE I largely maintain existing projects where this isn't the case).
 A month or two later, I was having a slow weekend with a bit of a sickness afoot and I had the thought that what I built seemed to have some crossover with one of my favorite games SW:EaW.
-The initial take-home project was interesting enough that I was curious about revisiting it and fixing some of the problems I created for myself with the first impl, but adding in the idea of using this base to explore a space naval RTS game inspired by SW:EaW, and I was hooked.
+The initial take-home project was interesting enough that I was curious about revisiting it and fixing some of the problems I created for myself with the first implementation.
+Add in the idea of using this base to explore a space naval RTS game inspired by SW:EaW, and I was hooked.
 
 So I've now decided to start a slow burn passion project working on a little something to explore some of these ideas.
 To set expectations:
@@ -45,7 +46,7 @@ Two important guiding philosophies I have for this simulator:
 3. It should be multiplayer friendly.
 
 As for the actual "game" itself-- let's just put a pin in that.
-For now I'll just have a shitty test client that moves some basic polygons around so I can explore the simulator's behavior.
+For now I'll just have a basic test client that moves some simple shapes around so I can explore the simulator's behavior.
 
 ## What's the Name
 
@@ -62,15 +63,15 @@ I've chosen to use Rust + Bevy.
 
 BUT- I don't have super technical reasons for this.
 I write Rust in my day job, so ironically it's just the language I can probably get up to speed with the fastest.
-I think Rust/Bevy is a good fit for me though because I want as much of this project to live in src code as possible.
+I think Rust/Bevy is a good fit for me though because I want as much of this project to live in source code as possible.
 I used Unity for a project in college once and boy do I hate navigating pointy-clicky UIs...
 
 ## Testing Plan
 
 This is just the first thing I'm interested in.
 My first objective with this codebase is to create some tooling to make generating unit tests a bit easier.
-I've found that (while valuable) unit tests often act as "state capture" of developer intentions when they implement the code and it's not until that code gets deployed through an actual application that real bugs are found.
-One thing I'm *not* excited about is spending lots of time reading through log files to deconstruct what led to a weird behavior.
+I've found that (while still valuable) unit tests often act as "state capture" of developer intentions when they implement the code and it's not until that code gets deployed through an actual application that real bugs are found.
+One thing I'm *not* excited about is spending lots of time reading through log files to deconstruct what led to a weird behavior that I observed only after clicking around in a client.
 My current plan for avoiding this is to record all calls the client application makes to my simulator during runtime and then save those inputs and their timings so that I can reconstruct the exact same scenario as a unit test.
 
 I actually implemented a first pass at this tooling while writing this blog post and it looks like this:
@@ -113,7 +114,7 @@ test-client session
 This generates a normal Rust unit test that I can manually add assertions to match the behavior I expected to see (but didn't).
 
 
-In getting this project stood up I implemented a very basic movement system that tracks unit position (x,y coordinates) and accepts a move order with a destination coordinate.
+In getting this project stood up I implemented a very basic movement system that tracks a units position (x,y coordinates) and accepts a move order to a destination coordinate.
 The simulator then uses a static velocity vector to calculate the next coordinate in the direction of the destination that the unit should appear in.
 
 
