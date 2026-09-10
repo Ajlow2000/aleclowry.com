@@ -1,5 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getEntry, render } from "astro:content";
+
+const homeEntry = await getEntry("pages", "home");
+const { Content: Bio } = await render(homeEntry!);
 ---
 
 <Layout title="Alec Lowry's Website">
@@ -9,11 +13,7 @@ import Layout from "../layouts/Layout.astro";
       <!-- <div class="landing-portrait" /> -->
       <!-- <span class="eyebrow landing-eyebrow">Writer &middot; Engineer &middot; Paddler</span> -->
       <h1 class="landing-name">Alec Lowry</h1>
-      <p class="landing-bio">
-      I'm a software engineer working for <a class="plain-link" href="https://www.sram.com/en/sram">SRAM</a> building a cross platform bluetooth library in Rust (Linux, Windows, MacOS).
-      I like whitewater kayaking, backcountry skiing, and riding bikes.
-      I'm also very mid at the board game Go.
-      </p>
+      <div class="landing-bio"><Bio /></div>
     </div>
   </div>
 </Layout>
@@ -75,9 +75,11 @@ import Layout from "../layouts/Layout.astro";
     font-style: italic;
     max-width: 56ch;
   }
-  .landing-bio em { font-style: normal; color: var(--ink); }
-  .landing-bio a.plain-link { color: inherit; }
-  .landing-bio a.plain-link:hover { color: var(--forest); }
+  /* Reset margins on the rendered <p> */
+  .landing-bio :global(p) { margin: 0; color: inherit; }
+  .landing-bio :global(em) { font-style: normal; color: var(--ink); }
+  .landing-bio :global(a) { color: inherit; }
+  .landing-bio :global(a):hover { color: var(--forest); }
 
   @media (max-width: 600px) {
     .landing { padding: 24px; }

@@ -1,4 +1,6 @@
 ---
+import { getEntry } from "astro:content";
+
 interface Props {
   title: string;
   description?: string;
@@ -7,6 +9,15 @@ interface Props {
 
 const { title, description, ogType = "website" } = Astro.props;
 const currentPath = Astro.url.pathname;
+
+const [navEntry, siteEntry] = await Promise.all([
+  getEntry("pages", "nav"),
+  getEntry("pages", "site"),
+]);
+const navLinks = navEntry?.data.links ?? [];
+const siteTitle = siteEntry?.data.siteTitle ?? "alec lowry";
+const socialLinks = siteEntry?.data.socialLinks ?? [];
+const copyright = siteEntry?.data.copyright ?? `© ${new Date().getFullYear()} Alec Lowry`;
 ---
 
 <!doctype html>
@@ -36,9 +47,11 @@ const currentPath = Astro.url.pathname;
     <div class="app">
       <nav class="nav">
         <div class="container-wide nav-inner">
-          <a class="nav-logo" href="/">alec lowry</a>
+          <a class="nav-logo" href="/">{siteTitle}</a>
           <div class="nav-links">
-            <a class:list={["nav-link", { active: currentPath.startsWith("/writing") }]} href="/writing">writing</a>
+            {navLinks.map((link) => (
+              <a class:list={["nav-link", { active: currentPath.startsWith(link.href) }]} href={link.href}>{link.label}</a>
+            ))}
           </div>
           <div class="nav-right">
             <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
@@ -53,18 +66,20 @@ const currentPath = Astro.url.pathname;
         </div>
       </nav>
       <div class="mobile-drawer" id="mobile-drawer">
-        <a class:list={["nav-link", { active: currentPath.startsWith("/writing") }]} href="/writing">writing</a>
-        <a class:list={["nav-link", { active: currentPath === "/likes" || currentPath === "/likes/" }]} href="/likes">likes</a>
+        {navLinks.map((link) => (
+          <a class:list={["nav-link", { active: currentPath.startsWith(link.href) }]} href={link.href}>{link.label}</a>
+        ))}
       </div>
       <div class="main-content">
         <slot />
       </div>
       <footer class="footer">
         <div class="container-wide footer-inner">
-          <span>&copy; 2025 Alec Lowry</span>
+          <span set:html={copyright} />
           <span class="links">
-            <a href="https://github.com/ajlow2000">GitHub</a>
-            <a href="https://linkedin.com/in/ajlow2000">LinkedIn</a>
+            {socialLinks.map((link) => (
+              <a href={link.href}>{link.label}</a>
+            ))}
           </span>
         </div>
       </footer>

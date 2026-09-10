@@ -17,4 +17,19 @@ const writing = defineCollection({
   }),
 });
 
-export const collections = { writing };
+const navLink = z.object({ label: z.string(), href: z.string() });
+
+const pages = defineCollection({
+  type: "content",
+  schema: z.object({
+    // nav.md
+    siteTitle: z.string().optional(),
+    copyright: z.string().optional(),
+    links: z.array(navLink).optional(),
+    socialLinks: z.array(navLink).optional(),
+    // 404.md
+    lede: z.string().optional(),
+  }),
+});
+
+export const collections = { writing, pages };

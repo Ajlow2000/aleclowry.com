@@ -1,11 +1,15 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import { getEntry } from "astro:content";
+
+const page = await getEntry("pages", "404");
+const lede = page?.data.lede ?? "The requested page doesn't exist.";
 ---
 
 <Layout title="404 — Alec Lowry">
   <div class="container notfound">
     <p class="number">404<span class="dot" aria-hidden="true"></span></p>
-    <p class="lede">The requested page doesn't exist (..anymore)</p>
+    <p class="lede">{lede}</p>
     <div class="actions">
       <a href="/" class="btn btn-primary">Home</a>
     </div>
