@@ -7,6 +7,10 @@ series:
   part: 2
 ---
 
-import WasmRemote from '../../components/wasm/WasmRemote.astro';
+import InteractiveDemo from '../../components/fleetsim-demo/InteractiveDemo.astro';
 
-<WasmRemote url="https://www.r2.aleclowry.com/demo-reynolds-forces-0.0.0/test-client.js" />
+<InteractiveDemo
+  title="reynolds forces"
+  videoUrl="https://www.r2.aleclowry.com/demo-reynolds-forces-0.0.0/demo.mp4"
+  wasmUrl="https://www.r2.aleclowry.com/demo-reynolds-forces-0.0.0/test-client.js"
+/>

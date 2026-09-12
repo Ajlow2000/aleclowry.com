@@ -1,0 +1,202 @@
+---
+import WasmEmbed from '../wasm/WasmEmbed.astro';
+import WasmUnreachable from '../wasm/WasmUnreachable.astro';
+
+interface Props {
+  title: string;
+  videoUrl: string;       // Full R2 URL to the mp4
+  wasmUrl: string;        // Full R2 URL to the wasm-bindgen JS glue
+  localVideoSrc?: string; // Same-origin video path, used in dev only
+  localWasmSrc?: string;  // Same-origin wasm path, used in dev only
+}
+
+const { title, videoUrl, wasmUrl, localVideoSrc, localWasmSrc } = Astro.props;
+
+const effectiveVideoSrc = import.meta.env.DEV && localVideoSrc ? localVideoSrc : videoUrl;
+const effectiveWasmSrc  = import.meta.env.DEV && localWasmSrc  ? localWasmSrc  : wasmUrl;
+const wasmName = wasmUrl.split('/').at(-2) ?? 'demo';
+---
+
+<div class="interactive-demo" id={`idemo-${wasmName}`}>
+  <div class="demo-header">
+    <span class="demo-title">{title}</span>
+    <div class="demo-toggle">
+      <input type="radio" id={`r-demo-${wasmName}`} name={`panel-${wasmName}`} value="video" checked />
+      <label for={`r-demo-${wasmName}`}>Demo</label>
+      <input type="radio" id={`r-interactive-${wasmName}`} name={`panel-${wasmName}`} value="wasm" />
+      <label for={`r-interactive-${wasmName}`}>Interactive</label>
+    </div>
+  </div>
+
+  <div class="demo-content">
+    <!-- Video panel: default active -->
+    <div class="demo-panel demo-panel--video is-active" id={`panel-video-${wasmName}`}>
+      <video src={effectiveVideoSrc} autoplay loop muted playsinline />
+    </div>
+
+    <!-- Wasm panel: inactive until toggled. Kept visible to the layout engine
+         (opacity-only hidden) so Bevy's canvas gets correct dimensions on init. -->
+    <div class="demo-panel demo-panel--wasm" id={`panel-wasm-${wasmName}`}>
+      <WasmEmbed src={effectiveWasmSrc} name={wasmName} />
+      <!-- Revealed by the wasm:error handler below; hidden until then. -->
+      <div class="demo-wasm-unreachable" hidden>
+        <WasmUnreachable demo={wasmName} url={effectiveWasmSrc} />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ wasmName }}>
+  const STORAGE_KEY = `idemo-panel-${wasmName}`;
+  const root = document.getElementById(`idemo-${wasmName}`);
+  const videoPanel = document.getElementById(`panel-video-${wasmName}`);
+  const wasmPanel  = document.getElementById(`panel-wasm-${wasmName}`);
+
+  function applyPanel(value) {
+    const showWasm = value === 'wasm';
+    videoPanel?.classList.toggle('is-active', !showWasm);
+    wasmPanel?.classList.toggle('is-active',  showWasm);
+    // Sync the radio input so it visually matches the restored state.
+    const radio = root?.querySelector(`input[value="${value}"]`);
+    if (radio) radio.checked = true;
+  }
+
+  // Restore saved panel on load.
+  const saved = localStorage.getItem(STORAGE_KEY);
+  if (saved === 'wasm' || saved === 'video') applyPanel(saved);
+
+  // Save and swap on change.
+  root?.querySelector('.demo-toggle')?.addEventListener('change', (e) => {
+    localStorage.setItem(STORAGE_KEY, e.target.value);
+    applyPanel(e.target.value);
+  });
+
+  // Wasm error: remove the embed, reveal the unreachable fallback.
+  wasmPanel?.addEventListener('wasm:error', () => {
+    wasmPanel.querySelector('.wasm-embed')?.remove();
+    const unreachable = wasmPanel.querySelector('.demo-wasm-unreachable');
+    if (unreachable) unreachable.removeAttribute('hidden');
+  });
+</script>
+
+<style>
+  .interactive-demo {
+    max-width: 720px;
+    margin: 1.5em auto;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--bg-2);
+    box-shadow: var(--shadow);
+  }
+
+  /* Header chrome — mirrors CodeBlock's .codeblock-bar */
+  .demo-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 14px;
+    background: var(--bg-2);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .demo-title {
+    font-family: var(--f-mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    color: var(--ink-3);
+  }
+
+  /* Segmented radio toggle */
+  .demo-toggle {
+    display: flex;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .demo-toggle input[type="radio"] {
+    display: none;
+  }
+
+  .demo-toggle label {
+    padding: 3px 10px;
+    font-family: var(--f-ui);
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--ink-3);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .demo-toggle input[type="radio"]:checked + label {
+    background: var(--bg-3);
+    color: var(--ink);
+  }
+
+  /* Panel container */
+  .demo-content {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-2);
+    overflow: hidden;
+  }
+
+  .demo-panel {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease;
+  }
+
+  .demo-panel.is-active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .demo-panel--video video {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+  }
+
+  /*
+   * WasmEmbed and WasmUnreachable are designed as standalone widgets with
+   * their own chrome (border, border-radius, margin, aspect-ratio).
+   * InteractiveDemo supplies that chrome, so we reset them to fill the panel.
+   * !important is necessary: Astro-scoped rules on those components have
+   * equal specificity (1 class + 1 data attribute) to this override.
+   */
+  :global(.interactive-demo .wasm-embed) {
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    aspect-ratio: unset !important;
+    background: transparent !important;
+  }
+
+  :global(.interactive-demo .wasm-unreachable) {
+    margin: 0 !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    border: none !important;
+    border-radius: 0 !important;
+    aspect-ratio: unset !important;
+  }
+
+  /* Unreachable wrapper: absolute fill so it overlays the panel on error */
+  .demo-wasm-unreachable {
+    position: absolute;
+    inset: 0;
+  }
+
+  .demo-wasm-unreachable[hidden] {
+    display: none;
+  }
+</style>

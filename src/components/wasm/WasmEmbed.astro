@@ -17,10 +17,6 @@ const name = Astro.props.name ?? src.split('/').at(-2) ?? 'wasm';
 
 <div class="wasm-embed" id={`wasm-embed-${name}`}>
   <WasmLoading />
-  <div class="wasm-controls" hidden>
-    <button class="wasm-btn" id={`pp-${name}`}>⏸ Pause</button>
-    <button class="wasm-btn" id={`rs-${name}`}>↺ Restart</button>
-  </div>
   <slot />
 </div>
 
@@ -28,15 +24,12 @@ const name = Astro.props.name ?? src.split('/').at(-2) ?? 'wasm';
   (async () => {
     const container = document.getElementById(`wasm-embed-${name}`);
     const loading = container?.querySelector(".wasm-loading");
-    const controls = container?.querySelector(".wasm-controls");
-    const playPauseBtn = document.getElementById(`pp-${name}`);
-    const restartBtn = document.getElementById(`rs-${name}`);
 
     try {
       // Snapshot canvases that exist before Bevy runs.
       const before = new Set(document.querySelectorAll("canvas"));
 
-      const { default: init, pause_app, resume_app, restart_app } = await import(src);
+      const { default: init } = await import(src);
       // No argument needed — wasm-bindgen resolves the .wasm path relative to
       // import.meta.url, so it follows src whether that's a local path or a
       // remote URL.
@@ -55,32 +48,6 @@ const name = Astro.props.name ?? src.split('/').at(-2) ?? 'wasm';
       // Move the canvas into our container so it obeys our layout.
       container?.appendChild(canvas);
       loading?.remove();
-
-      // Show controls now that the demo is running.
-      if (controls) controls.removeAttribute("hidden");
-
-      let isPaused = false;
-
-      playPauseBtn?.addEventListener("click", () => {
-        isPaused = !isPaused;
-        if (isPaused) {
-          pause_app();
-          playPauseBtn.textContent = "▶ Play";
-        } else {
-          resume_app();
-          playPauseBtn.textContent = "⏸ Pause";
-        }
-      });
-
-      restartBtn?.addEventListener("click", () => {
-        restart_app();
-        // If paused, resume so the restarted sim immediately runs.
-        if (isPaused) {
-          resume_app();
-          isPaused = false;
-          if (playPauseBtn) playPauseBtn.textContent = "⏸ Pause";
-        }
-      });
     } catch (err) {
       console.error(`[WasmEmbed] Failed to load "${src}":`, err);
       if (container) container.innerHTML = `<p class="wasm-error">Failed to load demo.</p>`;
@@ -128,44 +95,6 @@ const name = Astro.props.name ?? src.split('/').at(-2) ?? 'wasm';
     margin: 0;
     font-family: var(--f-ui);
     font-size: 13px;
-    color: var(--ink-3);
-  }
-
-  .wasm-error { color: var(--ink-4); }
-
-  /* Controls overlay — fades in on hover so it doesn't distract from the demo. */
-  .wasm-controls {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    display: flex;
-    gap: 6px;
-    padding: 6px 8px;
-    background: linear-gradient(transparent, color-mix(in srgb, var(--bg) 70%, transparent));
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    pointer-events: none;
-  }
-
-  .wasm-embed:hover .wasm-controls {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  .wasm-btn {
-    font-family: var(--f-ui);
-    font-size: 12px;
-    padding: 3px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--line);
-    background: color-mix(in srgb, var(--bg-2) 85%, transparent);
-    color: var(--ink);
-    cursor: pointer;
-    line-height: 1.5;
-  }
-
-  .wasm-btn:hover {
-    background: var(--bg-2);
+    color: var(--ink-4);
   }
 </style>
