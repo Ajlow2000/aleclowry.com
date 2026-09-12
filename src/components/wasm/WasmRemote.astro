@@ -1,0 +1,87 @@
+---
+import WasmEmbed from './WasmEmbed.astro';
+import WasmUnreachable from './WasmUnreachable.astro';
+
+interface Props {
+  // Full URL to the wasm-bindgen JS glue file on R2 (or any remote host).
+  // e.g. https://www.r2.aleclowry.com/wasm/my-demo/test-client.js
+  url: string;
+  // Same-origin path to a local wasm glue file. When set and running under
+  // `astro dev`, this path is used instead of `url` and a banner overlay is
+  // shown to make the local source obvious. Has no effect in production builds.
+  localSrc?: string;
+}
+
+const { url, localSrc } = Astro.props;
+
+// Use the local path only during dev. import.meta.env.DEV is statically false
+// in production builds, so the local branch is compiled out entirely.
+const useLocal = import.meta.env.DEV && !!localSrc;
+const effectiveSrc = useLocal ? localSrc! : url;
+
+// Derive a display name from the second-to-last path segment of the URL
+// (e.g. "my-demo" from ".../wasm/my-demo/test-client.js").
+const demo = url.split('/').at(-2) ?? 'remote';
+---
+
+<!--
+  WasmRemote owns the remote-fetch concern: it resolves the effective source
+  (R2 URL in production, optional local path in dev) and delegates rendering
+  to WasmEmbed. If the artifact is unreachable, the bubbling "wasm:error"
+  event from WasmEmbed swaps in WasmUnreachable.
+-->
+<div class="wasm-remote" id={`wasm-remote-${demo}`}>
+  <div class="wasm-remote-embed">
+    <WasmEmbed src={effectiveSrc} name={demo}>
+      {useLocal && <div class="wasm-dev-banner">local dev</div>}
+    </WasmEmbed>
+  </div>
+  <div class="wasm-remote-fallback" hidden>
+    <WasmUnreachable {demo} url={effectiveSrc} />
+  </div>
+</div>
+
+<script define:vars={{ demo }}>
+  const wrapper = document.getElementById(`wasm-remote-${demo}`);
+  wrapper?.addEventListener('wasm:error', () => {
+    wrapper.querySelector('.wasm-remote-embed')?.remove();
+    const fallback = wrapper.querySelector('.wasm-remote-fallback');
+    if (fallback) fallback.removeAttribute('hidden');
+  });
+</script>
+
+<style>
+  /* Passthrough wrappers — no visual contribution of their own. */
+  .wasm-remote,
+  .wasm-remote-embed,
+  .wasm-remote-fallback {
+    display: contents;
+  }
+
+  /* display: contents above overrides the UA's [hidden] { display: none } —
+     restore the expected behaviour explicitly. */
+  .wasm-remote-fallback[hidden] {
+    display: none;
+  }
+
+  /*
+   * Rendered inside .wasm-embed (position: relative; overflow: hidden) via
+   * WasmEmbed's slot, so absolute positioning is relative to the embed box
+   * and the banner is automatically clipped to it.
+   */
+  .wasm-dev-banner {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 10;
+    font-family: var(--f-ui);
+    font-size: 11px;
+    line-height: 1.5;
+    padding: 2px 7px;
+    border-radius: 4px;
+    border: 1px solid var(--line);
+    background: color-mix(in srgb, var(--bg-2) 85%, transparent);
+    color: var(--ink-3);
+    pointer-events: none;
+  }
+</style>

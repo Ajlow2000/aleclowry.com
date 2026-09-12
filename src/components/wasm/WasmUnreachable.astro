@@ -1,0 +1,71 @@
+---
+interface Props {
+  demo?: string;
+  url?: string;
+}
+
+const { demo, url } = Astro.props;
+---
+
+<div class="wasm-unreachable">
+  <div class="wasm-unreachable-inner">
+    <p class="wasm-unreachable-heading">File Unavailable</p>
+    <p class="wasm-unreachable-body">This interactive artifact couldn't be reached.</p>
+    {url && <p class="wasm-unreachable-url">{url}</p>}
+    {demo && !url && <p class="wasm-unreachable-demo">{demo}</p>}
+  </div>
+</div>
+
+<style>
+  .wasm-unreachable {
+    width: 100%;
+    max-width: 720px;
+    margin: 1.5em auto;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .wasm-unreachable-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    text-align: center;
+    padding: 1rem;
+  }
+
+  .wasm-unreachable-heading {
+    margin: 0;
+    font-family: var(--f-ui);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .wasm-unreachable-body {
+    margin: 0;
+    font-family: var(--f-ui);
+    font-size: 13px;
+    color: var(--ink-3);
+  }
+
+  .wasm-unreachable-demo,
+  .wasm-unreachable-url {
+    margin: 6px 0 0;
+    font-family: var(--f-mono);
+    font-size: 11px;
+    color: var(--ink-4);
+  }
+
+  .wasm-unreachable-url {
+    word-break: break-all;
+    max-width: 480px;
+    text-align: center;
+  }
+</style>

@@ -1,39 +1,45 @@
 ---
+import WasmLoading from './WasmLoading.astro';
+
 interface Props {
-  demo: string;
+  // Path or URL to the wasm-bindgen JS glue file.
+  // For local dev: a same-origin path like /wasm/my-demo/test-client.js
+  // For production: a full URL (typically passed in by WasmRemote)
+  src: string;
+  // Optional name used for element IDs. Defaults to the second-to-last path
+  // segment of src (e.g. "my-demo" from ".../wasm/my-demo/test-client.js").
+  name?: string;
 }
 
-const { demo } = Astro.props;
-const r2WasmBaseUrl = import.meta.env.PUBLIC_R2_WASM_BASE_URL;
+const { src } = Astro.props;
+const name = Astro.props.name ?? src.split('/').at(-2) ?? 'wasm';
 ---
 
-<div class="wasm-embed" id={`wasm-embed-${demo}`}>
-  <p class="wasm-loading">Loading demo...</p>
+<div class="wasm-embed" id={`wasm-embed-${name}`}>
+  <WasmLoading />
   <div class="wasm-controls" hidden>
-    <button class="wasm-btn" id={`pp-${demo}`}>⏸ Pause</button>
-    <button class="wasm-btn" id={`rs-${demo}`}>↺ Restart</button>
+    <button class="wasm-btn" id={`pp-${name}`}>⏸ Pause</button>
+    <button class="wasm-btn" id={`rs-${name}`}>↺ Restart</button>
   </div>
+  <slot />
 </div>
 
-<script define:vars={{ demo, r2WasmBaseUrl }}>
+<script define:vars={{ src, name }}>
   (async () => {
-    const container = document.getElementById(`wasm-embed-${demo}`);
+    const container = document.getElementById(`wasm-embed-${name}`);
     const loading = container?.querySelector(".wasm-loading");
     const controls = container?.querySelector(".wasm-controls");
-    const playPauseBtn = document.getElementById(`pp-${demo}`);
-    const restartBtn = document.getElementById(`rs-${demo}`);
+    const playPauseBtn = document.getElementById(`pp-${name}`);
+    const restartBtn = document.getElementById(`rs-${name}`);
 
     try {
       // Snapshot canvases that exist before Bevy runs.
       const before = new Set(document.querySelectorAll("canvas"));
 
-      // Load the JS glue from R2 when PUBLIC_R2_WASM_BASE_URL is set (production/preview).
-      // Falls back to same-origin for local dev when the env var is absent.
-      const glueBase = r2WasmBaseUrl || '';
-      const { default: init, pause_app, resume_app, restart_app } =
-        await import(`${glueBase}/wasm/${demo}/test-client.js`);
+      const { default: init, pause_app, resume_app, restart_app } = await import(src);
       // No argument needed — wasm-bindgen resolves the .wasm path relative to
-      // import.meta.url, which is already the R2 URL when the glue came from R2.
+      // import.meta.url, so it follows src whether that's a local path or a
+      // remote URL.
       await init();
 
       // Poll until Bevy appends its canvas to the document.
@@ -76,8 +82,9 @@ const r2WasmBaseUrl = import.meta.env.PUBLIC_R2_WASM_BASE_URL;
         }
       });
     } catch (err) {
-      console.error(`[WasmEmbed] Failed to load demo "${demo}":`, err);
+      console.error(`[WasmEmbed] Failed to load "${src}":`, err);
       if (container) container.innerHTML = `<p class="wasm-error">Failed to load demo.</p>`;
+      container?.dispatchEvent(new CustomEvent('wasm:error', { bubbles: true }));
     }
   })();
 </script>
@@ -112,7 +119,6 @@ const r2WasmBaseUrl = import.meta.env.PUBLIC_R2_WASM_BASE_URL;
     outline: none;
   }
 
-  .wasm-loading,
   .wasm-error {
     position: absolute;
     inset: 0;
